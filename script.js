@@ -487,13 +487,24 @@ function updateActionDownloadUI(){
   document.getElementById('actionDownloadRow').style.color = dl ? 'var(--hires)' : '';
 }
 function toggleDownloadCurrent(){
-  if(downloads.has(actionTrackIndex)){ downloads.delete(actionTrackIndex); showToast(t('removedToast')); }
-  else { downloads.add(actionTrackIndex); showToast(t('downloadedToast')); }
+  const tr = tracks[actionTrackIndex];
+
+  if(!tr || !tr.audioUrl) return;
+
+  const a = document.createElement('a');
+  a.href = tr.audioUrl;
+  a.download = tr.title + '.mp3';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  downloads.add(actionTrackIndex);
+  showToast(t('downloadedToast'));
   updateActionDownloadUI();
   updateDownloadCount();
   closeActionSheet();
   refreshActiveLists();
-}
+    }
 function updateDownloadCount(){ const el = document.getElementById('downloadCount'); if(el) el.textContent = downloads.size; }
 function clearDownloads(){ downloads = new Set(); updateDownloadCount(); showToast(t('removedToast')); refreshActiveLists(); }
 
