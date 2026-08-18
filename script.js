@@ -24,7 +24,7 @@ const tracks = [
     title:"Khooneye Man",
     artist:"Koorosh x Arta",
     album:"Khooneye Man",
-    lyrics:[بزودی],
+    lyrics:[],
     isUpload:true,
     audioUrl:"audio/Khooneye Man.mp3",
     cover:"images/IMG_20260818_154419_634.jpg"
