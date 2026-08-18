@@ -12,7 +12,7 @@ function coverEl(i){
 }
 
 const tracks = [
-  {title:"Night Sirens", artist:"Kairo Vale", dur:"3:39", plays:"12.4M", album:"Night Sirens", lyrics:["Streetlights flicker down an empty lane","City breathing slow, holding back the rain","I hear the sirens turn to song tonight","Chasing shadows into violet light"]},
+  {title:"Khooneye Man", artist:"اسم خواننده", dur:"3:20", plays:"0", album:"Khooneye Man", audioUrl:"audio/khooneye man.mp3", cover:"images/IMG_20260818_154419_634.jpg", lyrics:[]},
   {title:"Glass Horizon", artist:"Kairo Vale", dur:"3:32", plays:"9.7M", album:"Night Sirens", lyrics:["Standing at the edge of what we knew","Every skyline bending back to you","Glass horizon, catch me if you can","I've been drifting since the storm began"]},
   {title:"Static Bloom", artist:"Kairo Vale", dur:"3:34", plays:"4.5M", album:"Night Sirens", lyrics:["Static in the wires, bloom of sound","Every heartbeat echoes underground","We were paper planes in a hurricane","Static bloom, I'm calling out your name"]},
   {title:"Low Tide Diaries", artist:"Kairo Vale", dur:"3:40", plays:"12.6M", album:"Night Sirens", lyrics:["Wrote your name in sand before the wave","Low tide diaries, everything we save","Salt and silence, footprints disappear","Still I hear you calling, low and clear"]},
