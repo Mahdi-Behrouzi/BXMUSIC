@@ -27,7 +27,7 @@ const tracks = [
   lyrics:[],
   isUpload:true,
   audioUrl:"audio/Khooneye Man.mp3",
-  cover:"images/IMG_20260818_154419_634.jpg"
+  cover:"images/IMG_20260818_154419_634.jpg",
   }
   {title:"Glass Horizon", artist:"Kairo Vale", dur:"3:32", plays:"9.7M", album:"Night Sirens", lyrics:["Standing at the edge of what we knew","Every skyline bending back to you","Glass horizon, catch me if you can","I've been drifting since the storm began"]},
   {title:"Static Bloom", artist:"Kairo Vale", dur:"3:34", plays:"4.5M", album:"Night Sirens", lyrics:["Static in the wires, bloom of sound","Every heartbeat echoes underground","We were paper planes in a hurricane","Static bloom, I'm calling out your name"]},
