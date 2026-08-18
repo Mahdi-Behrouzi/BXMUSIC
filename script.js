@@ -45,6 +45,10 @@ const recent = [
   {name:"Solstice", i:7},{name:"Amber Radio", i:4},{name:"Low Tide Diaries", i:3},{name:"Static Bloom", i:2},
 ];
 const genres = ["Mood","Workout","Chill","Focus","Party","Rock"];
+const genreI18n = {
+  en:{Mood:"Mood",Workout:"Workout",Chill:"Chill",Focus:"Focus",Party:"Party",Rock:"Rock"},
+  fa:{Mood:"حس‌وحال",Workout:"ورزش",Chill:"آرامش",Focus:"تمرکز",Party:"مهمونی",Rock:"راک"}
+};
 const radioStations = ["Kairo Vale Radio","Late Night Frequencies","Deep Focus FM","Indie Reverie Radio"];
 const podcasts = [
   {title:"Studio Notes", host:"Weekly interviews with producers", i:1},
@@ -87,7 +91,7 @@ let shuffleMode = false;
 let repeatMode = 'off';
 let currentQueue = [0,1,2,3,4];
 let queueLabel = "Night Sirens";
-let playing = true;
+let playing = false;
 let liked = false;
 let following = false;
 let currentArtist = "Kairo Vale";
@@ -136,7 +140,15 @@ const i18n = {
     addToPlaylist:"Add to Playlist",share:"Share",removeFromPlaylist:"Remove from this playlist",
     newPlaylist:"New Playlist",copyLink:"Copy link",addSongs:"Add songs",linkCopied:"Link copied",
     downloadedToast:"Downloaded for offline",removedToast:"Removed from downloads",addedToPlaylist:"Added to",
-    playlistCreated:"Playlist created",songs:"songs",yourPlaylist:"Your playlist"},
+    playlistCreated:"Playlist created",songs:"songs",yourPlaylist:"Your playlist",
+    all:"All",music:"Music",discover:"Discover",videos:"Videos",radio:"Radio",songsTab:"Songs",albums:"Albums",artistsTab:"Artists",
+    podcasts:"Podcasts",playlistsSec:"Playlists",likedSongs:"Liked Songs",genresMoods:"Genres & moods",
+    radioStations:"Radio stations",radioStationLabel:"Radio station",tuneYourTaste:"Tune your taste",
+    pickMoods:"Pick a few moods for smarter picks",browseAll:"Browse all",friends:"Friends",
+    editProfile:"Edit profile",followers:"Followers",yourPlaylists:"Your playlists",premium:"Premium",
+    playHistory:"Play history",notifications:"Notifications",drivingMode:"Driving mode",
+    yourListeningStats:"Your listening stats",nothingPlayedYet:"Nothing played yet this session",
+    noSongsYet:"No songs yet",offlineMode:"Offline mode",yourLibraryTitle:"Your Library"},
   fa:{home:"خانه",explore:"اکسپلور",library:"کتابخانه",search:"جستجو",yourLibrary:"کتابخانه شما",
     madeForYou:"ساخته‌شده برای شما",recentlyPlayed:"اخیراً پخش‌شده",everythingOnePlayer:"همه‌چیز، یک پلیر",
     seeAll:"مشاهده همه",playNow:"پخش",popular:"محبوب‌ترین‌ها",follow:"دنبال کردن",following:"دنبال می‌کنید",
@@ -146,7 +158,15 @@ const i18n = {
     addToPlaylist:"افزودن به پلی‌لیست",share:"اشتراک‌گذاری",removeFromPlaylist:"حذف از این پلی‌لیست",
     newPlaylist:"پلی‌لیست جدید",copyLink:"کپی لینک",addSongs:"افزودن آهنگ",linkCopied:"لینک کپی شد",
     downloadedToast:"برای آفلاین دانلود شد",removedToast:"از دانلودها حذف شد",addedToPlaylist:"افزوده شد به",
-    playlistCreated:"پلی‌لیست ساخته شد",songs:"آهنگ",yourPlaylist:"پلی‌لیست شما"}
+    playlistCreated:"پلی‌لیست ساخته شد",songs:"آهنگ",yourPlaylist:"پلی‌لیست شما",
+    discover:"کشف",all:"همه",music:"موزیک",videos:"ویدیوها",radio:"رادیو",songsTab:"آهنگ‌ها",albums:"آلبوم‌ها",artistsTab:"هنرمندان",
+    podcasts:"پادکست‌ها",playlistsSec:"پلی‌لیست‌ها",likedSongs:"آهنگ‌های پسندیده",genresMoods:"ژانر و حال‌وهوا",
+    radioStations:"ایستگاه‌های رادیویی",radioStationLabel:"ایستگاه رادیویی",tuneYourTaste:"سلیقه‌ت رو تنظیم کن",
+    pickMoods:"چند حس‌وحال انتخاب کن برای پیشنهاد بهتر",browseAll:"مرور همه",friends:"دوستان",
+    editProfile:"ویرایش پروفایل",followers:"دنبال‌کننده",yourPlaylists:"پلی‌لیست‌های شما",premium:"پرمیوم",
+    playHistory:"تاریخچه پخش",notifications:"اعلان‌ها",drivingMode:"حالت رانندگی",
+    yourListeningStats:"آمار شنیدن شما",nothingPlayedYet:"چیزی تو این نشست پخش نشده",
+    noSongsYet:"هنوز آهنگی نیست",offlineMode:"حالت آفلاین",yourLibraryTitle:"کتابخانه شما"}
 };
 function t(key){ return i18n[lang][key] || key; }
 function applyI18n(){
@@ -164,7 +184,7 @@ function setLang(l){
   document.getElementById('langFaBtn').classList.toggle('active', l==='fa');
   document.body.classList.toggle('lang-fa', l==='fa');
   applyI18n();
-  renderMadeForYou(); renderExplore(); renderLibChips(); renderSearch(document.getElementById('searchInput').value);
+  renderHomeChips(); renderMadeForYou(); renderExplore(); renderLibChips(); renderSearch(document.getElementById('searchInput').value);
   updateSheet();
 }
 function setTheme(th){
@@ -185,7 +205,8 @@ function showToast(msg){
 function renderHomeChips(){
   const el = document.getElementById('homeChips');
   const labels = ['All','Music','Podcasts','Videos'];
-  el.innerHTML = labels.map((l,i) => `<div class="chip ${i===0?'active':''}" data-chip="${l}">${l}</div>`).join('');
+  const keys = {All:'all',Music:'music',Podcasts:'podcasts',Videos:'videos'};
+  el.innerHTML = labels.map((l,i) => `<div class="chip ${i===0?'active':''}" data-chip="${l}">${t(keys[l])}</div>`).join('');
   el.querySelectorAll('.chip').forEach(c => c.onclick = () => showHomeChip(c.dataset.chip));
 }
 function showHomeChip(label){
@@ -231,10 +252,10 @@ function renderHomePodcasts(){
 /* ================= RENDER: EXPLORE ================= */
 function renderExplore(){
   document.getElementById('genreGrid').innerHTML = genres.map((g,i) => `
-    <div class="gcard"><div class="cover">${coverEl(i+2)}</div><div class="t">${g}</div></div>`).join('');
+    <div class="gcard"><div class="cover">${coverEl(i+2)}</div><div class="t">${genreI18n[lang][g]||g}</div></div>`).join('');
   document.getElementById('radioGrid').innerHTML = radioStations.map((s,i) => `
     <div class="gcard" onclick='playTrack(${i % tracks.length},"${s}",false)'>
-      <div class="cover">${coverEl(i+3)}</div><div class="t">${s}</div><div class="s">Radio station</div>
+      <div class="cover">${coverEl(i+3)}</div><div class="t">${s}</div><div class="s">${t('radioStationLabel')}</div>
     </div>`).join('');
 }
 
@@ -242,7 +263,8 @@ function renderExplore(){
 function renderLibChips(){
   const el = document.getElementById('libChips');
   const labels = ['Playlists','Songs','Albums','Artists'];
-  el.innerHTML = labels.map((l,i) => `<div class="chip ${i===0?'active':''}" data-chip="${l}">${l}</div>`).join('');
+  const keys = {Playlists:'playlistsSec',Songs:'songsTab',Albums:'albums',Artists:'artistsTab'};
+  el.innerHTML = labels.map((l,i) => `<div class="chip ${i===0?'active':''}" data-chip="${l}">${t(keys[l])}</div>`).join('');
   el.querySelectorAll('.chip').forEach(c => c.onclick = () => openLibTab(c.dataset.chip));
   renderLibBody('Playlists');
 }
@@ -282,7 +304,7 @@ function renderSearch(q){
   q = (q||'').toLowerCase();
   const results = tracks.map((t,i)=>({t,i})).filter(x => !q || x.t.title.toLowerCase().includes(q) || x.t.artist.toLowerCase().includes(q));
   const el = document.getElementById('searchResults');
-  if(!q){ el.innerHTML = `<div class="section-head"><h2>Browse all</h2></div>` + tracks.map((t,i)=>trackRowHTML(i,i+1,currentTrack===i)).join(''); return; }
+  if(!q){ el.innerHTML = `<div class="section-head"><h2>${t('browseAll')}</h2></div>` + tracks.map((t,i)=>trackRowHTML(i,i+1,currentTrack===i)).join(''); return; }
   el.innerHTML = results.length ? results.map(x => trackRowHTML(x.i, x.i+1, currentTrack===x.i)).join('') : `<div style="color:var(--faint);font-size:13px;padding:20px 4px;">No results for "${q}"</div>`;
 }
 
@@ -554,6 +576,7 @@ function playTrack(i, label, openSheet){
   progress = 0;
   updateMini();
   updateSheet();
+  showMiniplayer();
   if(openSheet) openNowPlaying();
   refreshActiveLists();
   const tr = tracks[i];
@@ -607,10 +630,25 @@ function cycleRepeat(){
 function togglePlay(){
   playing = !playing;
   updatePlayIcons();
+  if(playing) showMiniplayer();
   if(usingRealAudio){
     const realAudio = document.getElementById('realAudioEl');
     if(playing) realAudio.play().catch(()=>{}); else realAudio.pause();
   } else if(playing){ ensureAudio(); startSequencer(); } else { stopSequencer(); }
+}
+function showMiniplayer(){
+  document.getElementById('miniplayer').classList.add('show');
+}
+function closeMiniplayer(){
+  document.getElementById('miniplayer').classList.remove('show');
+  playing = false;
+  updatePlayIcons();
+  if(usingRealAudio){
+    const realAudio = document.getElementById('realAudioEl');
+    if(realAudio) realAudio.pause();
+  } else {
+    stopSequencer();
+  }
 }
 function toggleLike(){
   liked = !liked;
@@ -1205,7 +1243,7 @@ function renderHistoryList(){
       <div class="hist-thumb">${coverEl(h.i)}</div>
       <div class="hist-meta"><div class="hist-title">${tracks[h.i].title}</div><div class="hist-sub">${tracks[h.i].artist}</div></div>
       <div class="hist-time">${h.time.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</div>
-    </div>`).join('') : `<div style="color:var(--faint);font-size:13px;padding:24px 4px;text-align:center;">Nothing played yet this session</div>`;
+    </div>`).join('') : `<div style="color:var(--faint);font-size:13px;padding:24px 4px;text-align:center;">${t('nothingPlayedYet')}</div>`;
 }
 
 /* ================= PERSONAL UPLOAD ================= */
