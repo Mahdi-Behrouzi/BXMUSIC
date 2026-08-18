@@ -6,11 +6,19 @@ const grads = [
 ];
 function gradCSS(i){const g=grads[i%grads.length];return `linear-gradient(150deg, ${g[0]}55, ${g[1]} 75%)`;}
 function coverEl(i){
+  const tr = tracks[i];
+
+  if(tr && tr.cover){
+    return `<img src="${tr.cover}" alt="${tr.title}" style="width:100%;height:100%;object-fit:cover;">`;
+  }
+
   return `<div style="width:100%;height:100%;background:${gradCSS(i)};position:relative;">
-    <svg class="wave-sig" viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;opacity:.55;"><path d="M0 55 Q15 30 30 55 T60 55 T90 55 T120 55"/><path d="M0 68 Q15 48 30 68 T60 68 T90 68 T120 68" style="stroke:rgba(255,255,255,.28)"/></svg>
+    <svg class="wave-sig" viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;opacity:.55;">
+      <path d="M0 55 Q15 30 30 55 T60 55 T90 55 T120 55"/>
+      <path d="M0 68 Q15 48 30 68 T60 68 T90 68 T120 68" style="stroke:rgba(255,255,255,.28)"/>
+    </svg>
   </div>`;
 }
-
 const tracks = [
   {
   title:"Khooneye Man",
