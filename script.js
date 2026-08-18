@@ -24,7 +24,7 @@ const tracks = [
     title:"Khooneye Man",
     artist:"Koorosh x Arta",
     album:"Khooneye Man",
-    lyrics:[خونه ی من اونجاست که بوی تو باشه
+    lyrics:خونه ی من اونجاست که بوی تو باشه
 پنجره هاش شبا به روی تو باشه
 میبافم رویایی که موی تو باشه
 میدونم که بهش میرسم
