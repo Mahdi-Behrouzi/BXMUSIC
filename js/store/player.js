@@ -25,6 +25,8 @@ let downloads = new Set();
 let listenHistory = [];
 let playHistoryLog = [];
 
+let visAnimId = null;
+
 function safeCall(fn, ...args){ if(typeof fn === 'function') return fn(...args); }
 
 function ensureAudioContext(){
@@ -188,7 +190,8 @@ export function initWithLegacy(){
   window.playerState = state;
   window.player = {
     playTrack, togglePlay, nextTrack, prevTrack, toggleShuffle, cycleRepeat, toggleLike, updateProgress,
-    hasDownload, addDownload, removeDownload, toggleDownload, getDownloads, getListenHistory, getPlayHistoryLog
+    hasDownload, addDownload, removeDownload, toggleDownload, getDownloads, getListenHistory, getPlayHistoryLog,
+    attachVisualizer, detachVisualizer
   };
 
   // expose downloads for legacy code compatibility (some views reference it)
@@ -222,3 +225,31 @@ export function initPlayer(audioEl){
   if(audioEl) realAudioEl = audioEl;
   console.log('[player] initPlayer called');
 }
+
+// Visualizer helpers — attach DOM visualizer to the module's analyser
+export function attachVisualizer(root){
+  try{
+    if(!root) root = document.getElementById('eqVisualizer');
+    if(!root) return;
+    ensureAudioContext();
+    if(!analyser) return;
+    // build bars if empty
+    if(!root.querySelectorAll('.bar').length){
+      root.innerHTML = Array.from({length:24}).map(()=>'<div class="bar"></div>').join('');
+    }
+    // animation loop
+    function render(){
+      const dataArr = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(dataArr);
+      const bars = root.querySelectorAll('.bar');
+      bars.forEach((b,i)=>{
+        const v = dataArr[i % dataArr.length] || 0;
+        b.style.height = (state.playing ? Math.max(3,(v/255)*34) : 3) + 'px';
+      });
+      visAnimId = requestAnimationFrame(render);
+    }
+    if(visAnimId) cancelAnimationFrame(visAnimId);
+    render();
+  }catch(e){ console.warn('[player] attachVisualizer failed', e); }
+}
+export function detachVisualizer(){ if(visAnimId) cancelAnimationFrame(visAnimId); visAnimId = null; }
