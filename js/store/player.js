@@ -20,6 +20,11 @@ let qualityLowpass = null;
 let realAudioEl = null;
 let sleepIntervalId = null;
 
+// downloads and history (migrated from legacy globals)
+let downloads = new Set();
+let listenHistory = [];
+let playHistoryLog = [];
+
 function safeCall(fn, ...args){ if(typeof fn === 'function') return fn(...args); }
 
 function ensureAudioContext(){
@@ -103,12 +108,21 @@ export function playTrack(i, label, openSheet){
     startSequencer();
   }
 
+  // update listen/play history
+  try{
+    listenHistory.push(i);
+    if(listenHistory.length>30) listenHistory.shift();
+    playHistoryLog.unshift({i, time:new Date()});
+    if(playHistoryLog.length>100) playHistoryLog.pop();
+  }catch(e){/* ignore */}
+
   // delegate to legacy for UI updates if available
   safeCall(legacy.updateMini);
   safeCall(legacy.updateSheet);
   safeCall(legacy.showMiniplayer);
   if(openSheet) safeCall(legacy.openNowPlaying);
   safeCall(legacy.refreshActiveLists);
+  safeCall(legacy.updateBecauseSection);
 
   startProgressLoop();
 }
@@ -131,6 +145,17 @@ export function toggleLike(){ safeCall(legacy.toggleLike); }
 
 export function updateProgress(p){ state.progress = p; }
 
+// downloads API
+export function hasDownload(i){ return downloads.has(i); }
+export function addDownload(i){ if(!downloads.has(i)) downloads.add(i); updateDownloadCount(); }
+export function removeDownload(i){ if(downloads.has(i)) downloads.delete(i); updateDownloadCount(); }
+export function toggleDownload(i){ if(downloads.has(i)) removeDownload(i); else addDownload(i); }
+export function getDownloads(){ return Array.from(downloads); }
+export function getListenHistory(){ return listenHistory.slice(); }
+export function getPlayHistoryLog(){ return playHistoryLog.slice(); }
+
+export function updateDownloadCount(){ safeCall(legacy.updateDownloadCount); }
+
 export function initWithLegacy(){
   // capture legacy functions we still rely on for UI
   legacy.playTrack = window.playTrack || null;
@@ -146,7 +171,9 @@ export function initWithLegacy(){
   legacy.openNowPlaying = window.openNowPlaying || null;
   legacy.refreshActiveLists = window.refreshActiveLists || null;
   legacy.updatePlayIcons = window.updatePlayIcons || null;
-  legacy.nextTrack = window.nextTrack || legacy.nextTrack;
+  legacy.updateProgress = window.updateProgress || null;
+  legacy.updateDownloadCount = window.updateDownloadCount || null;
+  legacy.updateBecauseSection = window.updateBecauseSection || null;
 
   // Replace global handlers with module functions
   window.playTrack = playTrack;
@@ -160,8 +187,12 @@ export function initWithLegacy(){
   // expose minimal API and state for debugging
   window.playerState = state;
   window.player = {
-    playTrack, togglePlay, nextTrack, prevTrack, toggleShuffle, cycleRepeat, toggleLike, updateProgress
+    playTrack, togglePlay, nextTrack, prevTrack, toggleShuffle, cycleRepeat, toggleLike, updateProgress,
+    hasDownload, addDownload, removeDownload, toggleDownload, getDownloads, getListenHistory, getPlayHistoryLog
   };
+
+  // expose downloads for legacy code compatibility (some views reference it)
+  window.downloads = downloads;
 
   // wire real audio events if element present
   const audio = document.getElementById('realAudioEl');
