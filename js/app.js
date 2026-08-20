@@ -19,7 +19,9 @@ function coverEl(i){
     </svg>
   </div>`;
 }
+/* ================= SONG DATA ================= */
 const tracks = window.BXMUSIC_SONGS;
+
 
 const artists = {
   "Kairo Vale":{followers:"28.4M", tracks:[0,1,2,3,4]},
