@@ -1,7 +1,4 @@
-/* BXMUSIC SONG DATABASE
-   Add new permanent songs here.
-   Do not edit js/app.js when adding a song.
-*/
+/* BXMUSIC song database — extracted from the original script.js */
 window.BXMUSIC_SONGS = [
   {
     title:"Khooneye Man",
