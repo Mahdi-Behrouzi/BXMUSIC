@@ -1,3 +1,4 @@
+// BXMUSIC app.js — original application logic preserved; song data is now loaded from ./data/songs.js
 /* ================= DATA ================= */
 const grads = [
   ['#8b5cf6','#2a1a4a'],['#ec4899','#3a1030'],['#34d1a0','#0e2b24'],['#5cc8f2','#0e2436'],
@@ -19,9 +20,7 @@ function coverEl(i){
     </svg>
   </div>`;
 }
-/* ================= SONG DATA ================= */
 const tracks = window.BXMUSIC_SONGS;
-
 
 const artists = {
   "Kairo Vale":{followers:"28.4M", tracks:[0,1,2,3,4]},
