@@ -1,4 +1,4 @@
-/* BXMUSIC song database — extracted from the original script.js */
+/* BXMUSIC song data - extracted from the original script without changing song metadata */
 window.BXMUSIC_SONGS = [
   {
     title:"Khooneye Man",
@@ -17,4 +17,4 @@ window.BXMUSIC_SONGS = [
   {title:"Halflight", artist:"Selene Marsh", dur:"3:57", plays:"5.3M", album:"Halflight", lyrics:["Halflight on the water, dim and blue","I keep tracing shapes that look like you","Nothing's fully dark, nothing's fully clear","Halflight holds me steady, holds me here"]},
   {title:"Solstice", artist:"Dax Holloway", dur:"3:15", plays:"3.9M", album:"Solstice", lyrics:["Longest day, we chased the setting sun","Solstice calling, tell me we're not done","Shadows shrink to nothing at your feet","Solstice keeps the summer obsolete"]},
   {title:"Analog Warmth", artist:"Wren Blackwood", dur:"2:58", plays:"2.1M", album:"Analog Warmth", lyrics:["Vinyl crackle, honest and unclean","Analog warmth, the softest in-between","Nothing digital could hold this tone","Analog warmth, the sound of coming home"]},
-];;
+];
