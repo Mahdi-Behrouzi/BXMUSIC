@@ -1,4 +1,24 @@
-/* BXMUSIC song data - extracted from the original script without changing song metadata */
+/*
+ * BXMUSIC song catalog
+ *
+ * ADD NEW SONGS ONLY AT THE END of this list.
+ * Keep the existing order because artists/playlists currently reference songs by index.
+ *
+ * Required: title, artist, album
+ * Optional: dur, plays, lyrics, audioUrl, cover, isUpload
+ *
+ * Example:
+ * {
+ *   title:"My New Song",
+ *   artist:"Artist Name",
+ *   album:"Album Name",
+ *   dur:"3:24",
+ *   plays:"0",
+ *   lyrics:[],
+ *   audioUrl:"audio/My New Song.mp3",
+ *   cover:"images/my-new-song.jpg"
+ * },
+ */
 const tracks = window.BXMUSIC_SONGS = [
   {
     title:"Khooneye Man",
@@ -18,3 +38,27 @@ const tracks = window.BXMUSIC_SONGS = [
   {title:"Solstice", artist:"Dax Holloway", dur:"3:15", plays:"3.9M", album:"Solstice", lyrics:["Longest day, we chased the setting sun","Solstice calling, tell me we're not done","Shadows shrink to nothing at your feet","Solstice keeps the summer obsolete"]},
   {title:"Analog Warmth", artist:"Wren Blackwood", dur:"2:58", plays:"2.1M", album:"Analog Warmth", lyrics:["Vinyl crackle, honest and unclean","Analog warmth, the softest in-between","Nothing digital could hold this tone","Analog warmth, the sound of coming home"]},
 ];
+
+// Add stable IDs without changing the existing index-based relationships.
+// The rest of the app can keep using numeric indexes for now.
+tracks.forEach((tr, i) => {
+  if (!tr.id) {
+    const base = `${tr.artist}-${tr.title}`
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+    tr.id = base || `track-${i + 1}`;
+  }
+  if (!Array.isArray(tr.lyrics)) tr.lyrics = [];
+});
+
+const _songIds = new Set();
+tracks.forEach((tr, i) => {
+  if (_songIds.has(tr.id)) console.warn(`[BXMUSIC] Duplicate song id at index ${i}: ${tr.id}`);
+  _songIds.add(tr.id);
+  if (!tr.title || !tr.artist || !tr.album) {
+    console.warn(`[BXMUSIC] Incomplete song at index ${i}:`, tr);
+  }
+});
+
+window.BXMUSIC_SONGS = tracks;
