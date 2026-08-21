@@ -24,3 +24,9 @@ const podcasts = [
   {title:"On Repeat", host:"New release breakdowns", i:5},
   {title:"The Mix Room", host:"Engineers talk craft", i:7},
 ];
+
+const tasteMoods = ['Chill','Focus','Party','Rock','Indie','Electronic','Late night','Morning'];
+const moodTrackMap = {
+  'Chill':[4,6,8], 'Focus':[8,4,2], 'Party':[3,1,7], 'Rock':[1,0,3],
+  'Indie':[5,6,8], 'Electronic':[2,4,8], 'Late night':[6,0,4], 'Morning':[7,5,3],
+};

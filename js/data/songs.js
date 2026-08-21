@@ -1,5 +1,5 @@
 /* BXMUSIC song data - extracted from the original script without changing song metadata */
-window.BXMUSIC_SONGS = [
+const tracks = window.BXMUSIC_SONGS = [
   {
     title:"Khooneye Man",
     artist:"Koorosh x Arta",
