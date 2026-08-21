@@ -2,6 +2,8 @@
 // All feature modules are loaded before this file from index.html.
 // Shared state lives in js/store; data lives in js/data.
 /* ================= INIT ================= */
+initAccount();
+
 setTheme('dark');
 setLang('en');
 updateDownloadCount();
