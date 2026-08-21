@@ -149,3 +149,95 @@ function getCurrentProfile() {
 function getAccountSettings() {
   return window.BXMUSIC_ACCOUNT.settings;
 }
+async function signUpWithEmail(email, password, name = "") {
+  if (!window.bxSupabase) {
+    console.error("BXMUSIC: Supabase is not initialized.");
+    return { success: false, error: "Supabase is not initialized." };
+  }
+
+  const { data, error } = await window.bxSupabase.auth.signUp({
+    email: email.trim(),
+    password,
+    options: {
+      data: {
+        full_name: name.trim()
+      }
+    }
+  });
+
+  if (error) {
+    console.error("BXMUSIC: Sign up failed.", error);
+    return { success: false, error: error.message };
+  }
+
+  return {
+    success: true,
+    data
+  };
+}
+
+
+async function signInWithEmail(email, password) {
+  if (!window.bxSupabase) {
+    console.error("BXMUSIC: Supabase is not initialized.");
+    return { success: false, error: "Supabase is not initialized." };
+  }
+
+  const { data, error } = await window.bxSupabase.auth.signInWithPassword({
+    email: email.trim(),
+    password
+  });
+
+  if (error) {
+    console.error("BXMUSIC: Sign in failed.", error);
+    return { success: false, error: error.message };
+  }
+
+  window.BXMUSIC_ACCOUNT.session = data.session;
+  window.BXMUSIC_ACCOUNT.user = data.user;
+
+  await loadAccountData();
+
+  if (typeof updateAccountUI === "function") {
+    updateAccountUI();
+  }
+
+  return {
+    success: true,
+    data
+  };
+}
+
+
+async function resetAccountPassword(email) {
+  if (!window.bxSupabase) {
+    return {
+      success: false,
+      error: "Supabase is not initialized."
+    };
+  }
+
+  const { error } = await window.bxSupabase.auth.resetPasswordForEmail(
+    email.trim(),
+    {
+      redirectTo:
+        window.location.origin + window.location.pathname
+    }
+  );
+
+  if (error) {
+    console.error(
+      "BXMUSIC: Password reset failed.",
+      error
+    );
+
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+
+  return {
+    success: true
+  };
+}
