@@ -1,1 +1,22 @@
-/* BXMUSIC: reserved for animations.css; current styles remain in style.css during safe migration. */
+/* BXMUSIC — animations.css
+   Extracted from the original style.css. No rules intentionally omitted. */
+
+@keyframes fade {
+  from {
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes miniwave {
+  0%,100% {
+    transform:scaleY(.4);
+  }
+  50% {
+    transform:scaleY(1);
+  }
+}
