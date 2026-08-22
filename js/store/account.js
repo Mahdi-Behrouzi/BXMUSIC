@@ -376,3 +376,4 @@ if(!window.__BXMUSIC_ACCOUNT_AUTO_INIT__){
     bootAccount();
   }
 }
+
