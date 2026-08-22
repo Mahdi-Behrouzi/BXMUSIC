@@ -361,3 +361,18 @@ async function handleForgotPassword(){
 
   message.textContent='Password reset email sent.';
 }
+/* ================= ACCOUNT AUTO INIT ================= */
+
+if(!window.__BXMUSIC_ACCOUNT_AUTO_INIT__){
+  window.__BXMUSIC_ACCOUNT_AUTO_INIT__=true;
+
+  const bootAccount=()=>{
+    if(typeof initAccount==='function')initAccount();
+  };
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',bootAccount,{once:true});
+  }else{
+    bootAccount();
+  }
+}
