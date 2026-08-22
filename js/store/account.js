@@ -376,4 +376,13 @@ if(!window.__BXMUSIC_ACCOUNT_AUTO_INIT__){
     bootAccount();
   }
 }
+async function handleGoogleLogin(){
+  const message=document.getElementById('authMessage');
+  if(message)message.textContent='Connecting to Google...';
 
+  const result=await signInWithGoogle();
+
+  if(!result.success&&message){
+    message.textContent=result.error||'Google sign in failed.';
+  }
+}
