@@ -250,3 +250,114 @@ function handleAccountClick(){
   }
   openAuth();
 }
+function openAuth(){
+  const backdrop=document.getElementById('authBackdrop');
+  if(!backdrop)return;
+  backdrop.classList.add('open');
+  setAuthMode('signup');
+}
+
+function closeAuth(){
+  const backdrop=document.getElementById('authBackdrop');
+  if(!backdrop)return;
+  backdrop.classList.remove('open');
+}
+
+let authMode='signup';
+
+function setAuthMode(mode){
+  authMode=mode;
+
+  const title=document.getElementById('authTitle');
+  const subtitle=document.getElementById('authSubtitle');
+  const nameField=document.getElementById('authNameField');
+  const submit=document.getElementById('authSubmit');
+  const switchBtn=document.getElementById('authSwitch');
+  const forgot=document.getElementById('authForgot');
+
+  if(!title)return;
+
+  if(mode==='login'){
+    title.textContent='Welcome back';
+    subtitle.textContent='Sign in to continue to BXMUSIC.';
+    nameField.style.display='none';
+    submit.textContent='Sign in';
+    switchBtn.textContent="Don't have an account? Create one";
+    forgot.style.display='block';
+  }else{
+    title.textContent='Create your account';
+    subtitle.textContent='Join BXMUSIC and keep your music with you.';
+    nameField.style.display='block';
+    submit.textContent='Create account';
+    switchBtn.textContent='Already have an account? Sign in';
+    forgot.style.display='none';
+  }
+}
+
+function toggleAuthMode(){
+  setAuthMode(authMode==='login'?'signup':'login');
+
+  const message=document.getElementById('authMessage');
+  if(message)message.textContent='';
+}
+
+async function handleAuthSubmit(event){
+  event.preventDefault();
+
+  const email=document.getElementById('authEmail').value.trim();
+  const password=document.getElementById('authPassword').value;
+  const name=document.getElementById('authName').value.trim();
+  const message=document.getElementById('authMessage');
+  const submit=document.getElementById('authSubmit');
+
+  if(!email||!password){
+    message.textContent='Please enter your email and password.';
+    return;
+  }
+
+  submit.disabled=true;
+  message.textContent='Please wait...';
+
+  let result;
+
+  if(authMode==='login'){
+    result=await signInWithEmail(email,password);
+  }else{
+    result=await signUpWithEmail(email,password,name);
+  }
+
+  submit.disabled=false;
+
+  if(!result.success){
+    message.textContent=result.error||'Something went wrong.';
+    return;
+  }
+
+  if(authMode==='signup'){
+    message.textContent='Account created. Please check your email to verify your account.';
+  }else{
+    message.textContent='Signed in successfully.';
+    setTimeout(closeAuth,500);
+  }
+}
+
+async function handleForgotPassword(){
+  const email=document.getElementById('authEmail').value.trim();
+  const message=document.getElementById('authMessage');
+
+  if(!email){
+    message.textContent='Enter your email first.';
+    return;
+  }
+
+  message.textContent='Sending reset email...';
+
+  const result=await resetAccountPassword(email);
+
+  if(!result.success){
+    message.textContent=result.error||'Could not send reset email.';
+    return;
+  }
+
+  message.textContent='Password reset email sent.';
+}
