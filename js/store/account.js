@@ -241,3 +241,12 @@ async function resetAccountPassword(email) {
     success: true
   };
 }
+function handleAccountClick(){
+  if(window.BXMUSIC_ACCOUNT && window.BXMUSIC_ACCOUNT.user){
+    if(typeof openEditProfile === 'function'){
+      openEditProfile();
+    }
+    return;
+  }
+  openAuth();
+}
