@@ -4,8 +4,8 @@
 /* ================= INIT ================= */
 initAccount();
 
-setTheme('dark');
-setLang('en');
+setTheme('light');
+setLang('fa');
 updateDownloadCount();
 buildVisualizerBars();
 updateQualityUI();
