@@ -1,148 +1,400 @@
+```css
 /* =========================================================
-   BXMUSIC — GLASS UI
-   iOS-inspired / Light-first / Dark-compatible
+   BXMUSIC — iOS GLASS UI
+   Real project classes
    ========================================================= */
 
-/* ---------- Glass Variables ---------- */
-
 :root {
-  --glass-blur: blur(22px) saturate(150%);
-  --glass-bg-main: rgba(255, 255, 255, 0.58);
-  --glass-bg-strong: rgba(255, 255, 255, 0.72);
-  --glass-border-main: rgba(255, 255, 255, 0.72);
-  --glass-shadow:
-    0 12px 35px rgba(30, 30, 60, 0.08);
-  --glass-shadow-hover:
-    0 18px 45px rgba(30, 30, 60, 0.12);
+  --ios-glass: rgba(255,255,255,.58);
+  --ios-glass-strong: rgba(255,255,255,.72);
+  --ios-glass-border: rgba(255,255,255,.72);
+  --ios-glass-shadow: 0 10px 35px rgba(30,30,60,.08);
+  --ios-glass-blur: blur(20px) saturate(160%);
 }
-
-/* ---------- Light Theme ---------- */
-
-body.light {
-  --glass-bg-main: rgba(255, 255, 255, 0.62);
-  --glass-bg-strong: rgba(255, 255, 255, 0.78);
-  --glass-border-main: rgba(255, 255, 255, 0.82);
-}
-
-/* ---------- Dark Theme ---------- */
-
-body:not(.light) {
-  --glass-bg-main: rgba(24, 24, 34, 0.62);
-  --glass-bg-strong: rgba(30, 30, 42, 0.78);
-  --glass-border-main: rgba(255, 255, 255, 0.10);
-
-  --glass-shadow:
-    0 15px 45px rgba(0, 0, 0, 0.28);
-
-  --glass-shadow-hover:
-    0 20px 55px rgba(0, 0, 0, 0.36);
-}
-
 
 /* =========================================================
-   SIDEBAR
+   SIDEBAR / DRAWER
    ========================================================= */
 
 #drawer {
-  background: var(--glass-bg-main);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-
-  border-right: 1px solid var(--glass-border-main);
-
-  box-shadow: var(--glass-shadow);
+  background: var(--ios-glass);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-right: 1px solid var(--ios-glass-border);
+  box-shadow: 18px 0 55px rgba(30,30,60,.10);
 }
 
-
-/* =========================================================
-   TOP / HEADER ELEMENTS
-   ========================================================= */
-
-.topbar,
-.header,
-.app-header {
-  background: var(--glass-bg-main);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-
-  border-bottom: 1px solid var(--glass-border-main);
-
-  box-shadow: 0 8px 30px rgba(30, 30, 60, 0.05);
-}
-
-
-/* =========================================================
-   SEARCH
-   ========================================================= */
-
-.search,
-.search-box,
-.search-wrap,
-#searchBox {
-  background: var(--glass-bg-main);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-
-  border: 1px solid var(--glass-border-main);
-
-  box-shadow: var(--glass-shadow);
-
+.drawer-item {
+  position: relative;
+  border: 1px solid transparent;
   transition:
-    background .25s ease,
-    box-shadow .25s ease,
-    transform .25s ease;
+    background .22s ease,
+    transform .22s ease,
+    box-shadow .22s ease;
 }
 
-.search:focus-within,
-.search-box:focus-within,
-.search-wrap:focus-within,
-#searchBox:focus-within {
-  background: var(--glass-bg-strong);
+.drawer-item:hover {
+  background: rgba(255,255,255,.28);
+  border-color: rgba(255,255,255,.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 5px 18px rgba(30,30,60,.06);
+}
+
+.drawer-item.active {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(139,92,246,.18),
+      rgba(236,72,153,.10)
+    );
+  border-color: rgba(139,92,246,.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    0 6px 20px rgba(139,92,246,.08);
+}
+
+
+/* =========================================================
+   SIDEBAR ICONS
+   ========================================================= */
+
+.drawer-item svg {
+  width: 19px;
+  height: 19px;
+  padding: 5px;
+  box-sizing: content-box;
+
+  border-radius: 10px;
+
+  background: rgba(255,255,255,.34);
+  border: 1px solid rgba(255,255,255,.52);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
   box-shadow:
-    0 0 0 3px rgba(139, 92, 246, 0.10),
-    var(--glass-shadow);
+    inset 0 1px 0 rgba(255,255,255,.65),
+    0 4px 12px rgba(30,30,60,.05);
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+.drawer-item:hover svg {
+  transform: scale(1.08);
+  background: rgba(255,255,255,.55);
+}
+
+.drawer-item.active svg {
+  background: rgba(139,92,246,.15);
+  border-color: rgba(139,92,246,.25);
 }
 
 
 /* =========================================================
-   MUSIC CARDS
+   CIRCLE BUTTONS
    ========================================================= */
 
-.music-card,
-.song-card,
-.track-card,
-.album-card,
-.artist-card,
-.h-card,
-.v-card {
-  background: var(--glass-bg-main);
+.circle-btn {
+  background: rgba(255,255,255,.42);
+  border: 1px solid rgba(255,255,255,.65);
 
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
 
-  border: 1px solid var(--glass-border-main);
-
-  box-shadow: var(--glass-shadow);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    0 6px 20px rgba(30,30,60,.07);
 
   transition:
-    transform .28s cubic-bezier(.16,1,.3,1),
-    background .25s ease,
-    box-shadow .28s ease;
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
 }
 
-.music-card:hover,
-.song-card:hover,
-.track-card:hover,
-.album-card:hover,
-.artist-card:hover,
-.h-card:hover,
-.v-card:hover {
-  background: var(--glass-bg-strong);
+.circle-btn:hover {
+  background: rgba(255,255,255,.62);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 10px 28px rgba(30,30,60,.11);
+}
 
-  transform: translateY(-4px);
 
-  box-shadow: var(--glass-shadow-hover);
+/* =========================================================
+   PLAY BUTTON
+   ========================================================= */
+
+.play-circle {
+  box-shadow:
+    0 12px 30px rgba(139,92,246,.22),
+    inset 0 1px 0 rgba(255,255,255,.45);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+}
+
+.play-circle:hover {
+  transform: scale(1.05);
+
+  box-shadow:
+    0 16px 38px rgba(139,92,246,.30),
+    inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+
+/* =========================================================
+   TRACK ACTION ICONS
+   ========================================================= */
+
+.trow .dl-icon,
+.trow .kebab,
+.trow .rm-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.38);
+  border: 1px solid rgba(255,255,255,.55);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.65),
+    0 4px 14px rgba(30,30,60,.06);
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+.trow .dl-icon:hover,
+.trow .kebab:hover,
+.trow .rm-icon:hover {
+  transform: scale(1.08);
+  background: rgba(255,255,255,.62);
+}
+
+
+/* =========================================================
+   ACTION SHEET ICONS
+   ========================================================= */
+
+.sheet-row {
+  border-radius: 14px;
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.sheet-row:hover {
+  background: rgba(255,255,255,.28);
+}
+
+.sheet-row svg {
+  width: 20px;
+  height: 20px;
+
+  padding: 7px;
+
+  box-sizing: content-box;
+
+  border-radius: 12px;
+
+  background: rgba(255,255,255,.40);
+  border: 1px solid rgba(255,255,255,.58);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    0 4px 14px rgba(30,30,60,.06);
+}
+
+
+/* =========================================================
+   COVER EDIT
+   ========================================================= */
+
+.cover-edit-badge {
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(255,255,255,.75);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 6px 18px rgba(30,30,60,.10),
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.cover-edit-badge svg {
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.08));
+}
+
+
+/* =========================================================
+   NOW PLAYING
+   ========================================================= */
+
+.np-top .chev {
+  padding: 7px;
+
+  box-sizing: content-box;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.14);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.np-lyrics-head svg {
+  padding: 6px;
+
+  box-sizing: content-box;
+
+  border-radius: 10px;
+
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.12);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+
+/* =========================================================
+   DEVICE ROW ICONS
+   ========================================================= */
+
+.device-row {
+  border-radius: 14px;
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.device-row:hover {
+  background: rgba(255,255,255,.08);
+}
+
+.device-row svg {
+  width: 20px;
+  height: 20px;
+
+  padding: 6px;
+
+  box-sizing: content-box;
+
+  border-radius: 11px;
+
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+
+/* =========================================================
+   NOTIFICATION ICONS
+   ========================================================= */
+
+.notif-icon {
+  background: rgba(255,255,255,.42);
+  border: 1px solid rgba(255,255,255,.58);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.65),
+    0 5px 16px rgba(30,30,60,.06);
+}
+
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+
+.settings-block {
+  background: rgba(255,255,255,.42);
+  border: 1px solid rgba(255,255,255,.55);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: var(--ios-glass-shadow);
+}
+
+.settings-row {
+  border-bottom-color: rgba(255,255,255,.35);
+}
+
+.seg {
+  background: rgba(255,255,255,.30);
+  border: 1px solid rgba(255,255,255,.45);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.seg-btn.active {
+  box-shadow:
+    0 5px 15px rgba(139,92,246,.18),
+    inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+
+/* =========================================================
+   ACCOUNT / LOGIN
+   ========================================================= */
+
+.auth-backdrop {
+  background: rgba(20,20,30,.35);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.auth-sheet {
+  background: rgba(255,255,255,.70);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+
+  border: 1px solid rgba(255,255,255,.82);
+
+  box-shadow:
+    0 25px 80px rgba(20,20,50,.16),
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.auth-close {
+  background: rgba(255,255,255,.45);
+  border: 1px solid rgba(255,255,255,.62);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.auth-field input {
+  background: rgba(255,255,255,.48);
+  border-color: rgba(255,255,255,.65);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 
@@ -150,137 +402,71 @@ body:not(.light) {
    MINI PLAYER
    ========================================================= */
 
-#miniplayer,
-.bottom-player,
-.mini-player {
-  background: var(--glass-bg-strong);
+#miniplayer {
+  background: rgba(255,255,255,.66);
 
   backdrop-filter: blur(28px) saturate(170%);
   -webkit-backdrop-filter: blur(28px) saturate(170%);
 
-  border-top: 1px solid var(--glass-border-main);
+  border-top: 1px solid rgba(255,255,255,.78);
 
   box-shadow:
-    0 -10px 35px rgba(30, 30, 60, 0.08),
-    0 8px 30px rgba(30, 30, 60, 0.05);
+    0 -10px 35px rgba(30,30,60,.08),
+    inset 0 1px 0 rgba(255,255,255,.65);
 }
 
 
 /* =========================================================
-   BOTTOM NAV — MOBILE
+   BOTTOM NAV
    ========================================================= */
 
 #bottomnav {
-  background: var(--glass-bg-strong);
+  background: rgba(255,255,255,.68);
 
   backdrop-filter: blur(26px) saturate(170%);
   -webkit-backdrop-filter: blur(26px) saturate(170%);
 
-  border-top: 1px solid var(--glass-border-main);
+  border-top: 1px solid rgba(255,255,255,.78);
 
   box-shadow:
-    0 -8px 30px rgba(30, 30, 60, 0.08);
+    0 -8px 30px rgba(30,30,60,.08);
 }
 
 
 /* =========================================================
-   MODALS / SHEETS
+   DARK MODE
    ========================================================= */
 
-.modal,
-.sheet,
-.panel,
-#npSheet,
-#accountSheet {
-  background: var(--glass-bg-strong);
+body:not(.light) {
 
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  --ios-glass: rgba(25,25,35,.60);
+  --ios-glass-strong: rgba(32,32,44,.72);
+  --ios-glass-border: rgba(255,255,255,.10);
 
-  border: 1px solid var(--glass-border-main);
+}
+
+body:not(.light) #drawer,
+body:not(.light) #miniplayer,
+body:not(.light) #bottomnav {
+
+  background: var(--ios-glass);
+  border-color: var(--ios-glass-border);
+}
+
+body:not(.light) .drawer-item svg,
+body:not(.light) .circle-btn,
+body:not(.light) .trow .dl-icon,
+body:not(.light) .trow .kebab,
+body:not(.light) .trow .rm-icon,
+body:not(.light) .sheet-row svg,
+body:not(.light) .notif-icon {
+
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.12);
 
   box-shadow:
-    0 25px 80px rgba(20, 20, 50, 0.18);
-}
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.hero-slider {
-  box-shadow:
-    0 22px 65px rgba(30, 30, 60, 0.12);
-}
-
-.hero-slide::after {
-  content: "";
-
-  position: absolute;
-  inset: 12px;
-
-  border-radius: inherit;
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-.btn-primary {
-  box-shadow:
-    0 10px 28px rgba(139, 92, 246, 0.20);
-
-  transition:
-    transform .22s ease,
-    box-shadow .22s ease;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 14px 34px rgba(139, 92, 246, 0.28);
-}
-
-
-/* =========================================================
-   NAV ITEMS
-   ========================================================= */
-
-.nav-item,
-.menu-item,
-.nav-link {
-  transition:
-    background .2s ease,
-    transform .2s ease;
-}
-
-.nav-item:hover,
-.menu-item:hover,
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.20);
-}
-
-
-/* =========================================================
-   REDUCE MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  .music-card,
-  .song-card,
-  .track-card,
-  .album-card,
-  .artist-card,
-  .btn-primary {
-    transition: none;
-  }
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 5px 18px rgba(0,0,0,.16);
 }
 
 
@@ -293,17 +479,22 @@ body:not(.light) {
   #drawer,
   #miniplayer,
   #bottomnav,
-  .modal,
-  .sheet {
-    backdrop-filter: blur(18px) saturate(150%);
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
+  .auth-sheet {
+
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
   }
 
-  .music-card,
-  .song-card,
-  .track-card,
-  .album-card {
-    box-shadow:
-      0 8px 25px rgba(30, 30, 60, 0.07);
+  .drawer-item svg {
+    padding: 4px;
   }
-    }
+
+  .trow .dl-icon,
+  .trow .kebab,
+  .trow .rm-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+```
+   
