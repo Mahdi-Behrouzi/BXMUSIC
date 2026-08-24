@@ -514,13 +514,76 @@
     <div class="drawer-item" onclick="openPlaylist('Late Night Drive',true);closeDrawer()"><div class="pl-dot" style="background:#5cc8f2"></div>Late Night Drive</div>
     <div class="drawer-item" style="color:var(--faint)" onclick="createPlaylist();closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="newPlaylist">New Playlist</span></div>
 
-    <div class="drawer-user" onclick="switchScreen('profile');closeDrawer()">
-      <div class="avatar" id="drawerAvatar">M</div>
-      <div><div style="font-size:13.5px;font-weight:600;" id="drawerName">Mahdi</div><div style="font-size:11.5px;color:var(--a1);" data-i18n="premium">Premium</div></div>
-      <svg class="chev" style="margin-left:auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+<!-- ================= ACCOUNT & SETTINGS MENU ================= -->
+
+<div class="drawer-user" style="cursor:default;display:block;">
+
+  <!-- حساب کاربری -->
+  <div class="drawer-account-option"
+       onclick="handleAccountClick();closeDrawer();">
+
+    <div class="drawer-account-icon">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+      </svg>
     </div>
+
+    <div class="drawer-account-text">
+      <div class="drawer-account-title">حساب کاربری</div>
+      <div class="drawer-account-subtitle">ورود، ثبت‌نام و اطلاعات حساب</div>
+    </div>
+
+    <svg class="drawer-option-arrow"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+      <path d="M9 6l6 6-6 6"/>
+    </svg>
+
   </div>
 
+
+  <!-- تنظیمات -->
+  <div class="drawer-account-option"
+       onclick="switchScreen('settings');closeDrawer();">
+
+    <div class="drawer-account-icon">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round">
+        <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.8 1.8-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V22h-2.54v-.1a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.8-1.8.06-.06A1.7 1.7 0 0 0 8.1 15a1.7 1.7 0 0 0-1.56-1.04H6.4v-2.54h.14A1.7 1.7 0 0 0 8.1 10.38a1.7 1.7 0 0 0-.34-1.88L7.7 8.44l1.8-1.8.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.04-1.56V5h2.54v.48a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34L18.1 6.64l1.8 1.8-.06.06a1.7 1.7 0 0 0-.34 1.88 1.7 1.7 0 0 0 1.56 1.04H21.2v2.54h-.14A1.7 1.7 0 0 0 19.4 15z"/>
+      </svg>
+    </div>
+
+    <div class="drawer-account-text">
+      <div class="drawer-account-title">تنظیمات</div>
+      <div class="drawer-account-subtitle">تنظیمات و شخصی‌سازی</div>
+    </div>
+
+    <svg class="drawer-option-arrow"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+      <path d="M9 6l6 6-6 6"/>
+    </svg>
+
+  </div>
+
+</div>
   <!-- ===================== PROFILE ===================== -->
   <div class="screen" id="screen-profile">
     <div class="topbar">
