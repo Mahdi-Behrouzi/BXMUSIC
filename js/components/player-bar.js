@@ -98,6 +98,30 @@ function updateMini(){
   document.getElementById('mpArtist').textContent = t.artist;
   updatePlayIcons();
 }
+function renderSimilarTracks(){
+  const el = document.getElementById('npSimilarStrip');
+  if(!el || !tracks.length || currentTrack < 0) return;
+
+  const current = tracks[currentTrack];
+  const candidates = tracks
+    .map((tr,i) => ({tr,i}))
+    .filter(x => x.i !== currentTrack)
+    .sort((a,b) => {
+      const as = (a.tr.artist === current.artist ? 3 : 0) + (a.tr.album === current.album ? 2 : 0);
+      const bs = (b.tr.artist === current.artist ? 3 : 0) + (b.tr.album === current.album ? 2 : 0);
+      return bs - as;
+    })
+    .slice(0,5);
+
+  el.innerHTML = candidates.map(x => `
+    <div class="np-similar-card" onclick='playTrack(${x.i},"آهنگ‌های مشابه",true)'>
+      <div class="cover">${coverEl(x.i)}</div>
+      <div class="t">${x.tr.title}</div>
+      <div class="s">${x.tr.artist}</div>
+    </div>
+  `).join('');
+}
+
 function updateSheet(){
   const tr = tracks[currentTrack];
   document.getElementById('npCover').innerHTML = coverEl(currentTrack);
@@ -109,6 +133,7 @@ function updateSheet(){
   document.getElementById('npLyricsPreview').textContent = tr.lyrics[1] || tr.lyrics[0] || '';
   document.getElementById('npLyricsBody').classList.remove('show');
   document.getElementById('npLyricsPreview').style.display = 'block';
+  renderSimilarTracks();
   updatePlayIcons();
   applyDynamicTheme(currentTrack);
 }
