@@ -515,12 +515,23 @@
     <div class="drawer-item" style="color:var(--faint)" onclick="createPlaylist();closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="newPlaylist">New Playlist</span></div>
 
     <div class="drawer-user" onclick="switchScreen('profile');closeDrawer()">
-      <div class="avatar" id="drawerAvatar">M</div>
-      <div><div style="font-size:13.5px;font-weight:600;" id="drawerName">Mahdi</div><div style="font-size:11.5px;color:var(--a1);" data-i18n="premium">Premium</div></div>
-      <svg class="chev" style="margin-left:auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-    </div>
+  <div class="avatar" id="drawerAvatar">M</div>
+  <div>
+    <div style="font-size:13.5px;font-weight:600;" id="drawerName">Mahdi</div>
+    <div style="font-size:11.5px;color:var(--muted);">حساب کاربری</div>
   </div>
+  <svg class="chev" style="margin-left:auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+    <path d="M9 6l6 6-6 6"/>
+  </svg>
+</div>
 
+<div class="drawer-item" onclick="switchScreen('settings');closeDrawer()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+    <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.8 1.8-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V20h-2.55v-.1a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.8-1.8.06-.06A1.7 1.7 0 0 0 8.6 15a1.7 1.7 0 0 0-1.56-1.04H7V11.4h.04A1.7 1.7 0 0 0 8.6 10a1.7 1.7 0 0 0-.34-1.88L8.2 8.06l1.8-1.8.06.06A1.7 1.7 0 0 0 11.94 6.0 1.7 1.7 0 0 0 13 4.44V4h2.55v.44A1.7 1.7 0 0 0 16.6 6.0a1.7 1.7 0 0 0 1.88.34l.06-.06 1.8 1.8-.06.06A1.7 1.7 0 0 0 19.94 10a1.7 1.7 0 0 0 1.56 1.04h.04v2.55h-.04A1.7 1.7 0 0 0 19.4 15z"/>
+  </svg>
+  <span>تنظیمات</span>
+</div>
   <!-- ===================== PROFILE ===================== -->
   <div class="screen" id="screen-profile">
     <div class="topbar">
