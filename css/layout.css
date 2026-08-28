@@ -358,3 +358,36 @@
 .nav-btn.active {
   color:var(--a1);
 }
+
+.drawer-bottom-options{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid var(--line);
+}
+
+.drawer-bottom-option{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  color:var(--dim);
+  font-size:14px;
+  font-weight:500;
+  cursor:pointer;
+}
+
+.drawer-bottom-option:hover{
+  background:var(--surface-2);
+  color:var(--text);
+}
+
+.drawer-bottom-option svg{
+  width:19px;
+  height:19px;
+  flex-shrink:0;
+}
