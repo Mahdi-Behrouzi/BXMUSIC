@@ -1,4 +1,4 @@
-```css
+
 /* =========================================================
    BXMUSIC — iOS GLASS UI
    Real project classes
@@ -493,35 +493,3 @@ body:not(.light) .notif-icon {
     height: 30px;
   }
 }
-.menu-hint{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:25px;
-  height:25px;
-  margin-left:7px;
-  border-radius:7px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  transition:.2s ease;
-}
-
-.menu-hint-lines{
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-  width:13px;
-}
-
-.menu-hint-lines i{
-  display:block;
-  width:100%;
-  height:1.5px;
-  border-radius:2px;
-  background:currentColor;
-}
-
-.menu-hint:hover{
-  transform:scale(1.06);
-}
-   
