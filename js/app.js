@@ -4,7 +4,7 @@
 /* ================= INIT ================= */
 initAccount();
 
-setTheme('light');
+setTheme('dark');
 setLang('fa');
 updateDownloadCount();
 buildVisualizerBars();
