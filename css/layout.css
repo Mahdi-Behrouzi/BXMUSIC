@@ -175,7 +175,7 @@
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.6);
-  z-index:70;
+  z-index:900;
   display:none;
 }
 
@@ -194,7 +194,7 @@
   backdrop-filter:blur(28px) saturate(180%);
   -webkit-backdrop-filter:blur(28px) saturate(180%);
   border-right:1px solid var(--glass-border);
-  z-index:200;
+  z-index:1000;
   padding:24px 16px;
   overflow-y:auto;
   transition:left .38s var(--ease);
