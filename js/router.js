@@ -10,7 +10,29 @@ function switchScreen(name){
   if(name==='friends') renderFriendsList();
   if(name==='history') renderHistoryList();
 }
-function openDrawer(){ document.getElementById('drawer').classList.add('open'); document.getElementById('drawerBackdrop').classList.add('open'); }
-function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerBackdrop').classList.remove('open'); }
+function openDrawer(){
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerBackdrop').classList.add('open');
 
+  const btn = document.querySelector('.menu-btn');
+  if (btn) btn.classList.add('active');
+}
+
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerBackdrop').classList.remove('open');
+
+  const btn = document.querySelector('.menu-btn');
+  if (btn) btn.classList.remove('active');
+}
+
+function toggleDrawerMenu(){
+  const drawer = document.getElementById('drawer');
+
+  if (drawer.classList.contains('open')) {
+    closeDrawer();
+  } else {
+    openDrawer();
+  }
+}
 
