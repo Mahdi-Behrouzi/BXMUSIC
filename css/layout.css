@@ -30,6 +30,15 @@
   align-items:center;
   justify-content:space-between;
   margin-bottom:16px;
+
+  position:sticky;
+  top:-16px;
+  z-index:500;
+
+  padding-top:16px;
+  padding-bottom:10px;
+
+  background:var(--bg);
 }
 
 .brand {
