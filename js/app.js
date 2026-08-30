@@ -15,6 +15,8 @@ renderRecent();
 renderFeatures();
 renderHomeVideos();
 renderHomePodcasts();
+renderHomeRadio();
+renderHomePlaylists();
 renderExplore();
 renderLibChips();
 renderSearch('');
