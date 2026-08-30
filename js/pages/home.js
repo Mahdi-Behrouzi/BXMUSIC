@@ -3,16 +3,36 @@
 
 function renderHomeChips(){
   const el = document.getElementById('homeChips');
-  const labels = ['All','Music','Podcasts','Videos'];
-  const keys = {All:'all',Music:'music',Podcasts:'podcasts',Videos:'videos'};
+  const labels = ['All','Music','Playlists','Radio','Podcasts','Videos'];
+  const keys = {All:'all',Music:'music',Podcasts:'podcasts',Videos:'videos',Radio:'radio',Playlists:'playlistsSec'};
   el.innerHTML = labels.map((l,i) => `<div class="chip ${i===0?'active':''}" data-chip="${l}">${t(keys[l])}</div>`).join('');
   el.querySelectorAll('.chip').forEach(c => c.onclick = () => showHomeChip(c.dataset.chip));
 }
+
 function showHomeChip(label){
   document.querySelectorAll('#homeChips .chip').forEach(c => c.classList.toggle('active', c.dataset.chip===label));
   document.getElementById('homeMusicSection').classList.toggle('hidden', !(label==='All'||label==='Music'));
   document.getElementById('homeVideoSection').classList.toggle('hidden', label!=='Videos');
   document.getElementById('homePodcastSection').classList.toggle('hidden', label!=='Podcasts');
+  document.getElementById('homeRadioSection').classList.toggle('hidden', label!=='Radio');
+  document.getElementById('homePlaylistsSection').classList.toggle('hidden', label!=='Playlists');
+}
+
+function renderHomeRadio(){
+  document.getElementById('homeRadioGrid').innerHTML = radioStations.map((s,i) => `
+    <div class="gcard" onclick='playTrack(${i % tracks.length},"${s}",false)'>
+      <div class="cover">${coverEl(i+3)}</div>
+      <div class="t">${s}</div><div class="s">${t('radioStationLabel')}</div>
+    </div>`).join('');
+}
+
+function renderHomePlaylists(){
+  const names = Object.keys(builtinPlaylists);
+  document.getElementById('homePlaylistsGrid').innerHTML = names.map(name => `
+    <div class="hcard" onclick="openPlaylist('${name}',true)">
+      <div class="cover">${coverEl(builtinPlaylists[name][0])}</div>
+      <div class="t">${name}</div><div class="s">${builtinPlaylists[name].length} ${t('songs')}</div>
+    </div>`).join('');
 }
 function renderMadeForYou(){
   document.getElementById('madeForYou').innerHTML = madeForYou.map(m => `
