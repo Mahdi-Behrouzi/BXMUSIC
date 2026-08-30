@@ -35,240 +35,211 @@
     <div class="offline-banner" id="offlineBanner">📡 Offline mode — showing downloaded songs only</div>
 
     <div id="homeMusicSection">
-      <div class="hero hero-slider" id="homeHero">
+      <!--
+  جایگزین این بلاک با محتوای فعلی index.html از خط 38
+  (<div class="hero hero-slider" id="homeHero">)
+  تا خط 269 (بسته‌شدن <div class="hero-dots">) بشه.
+  همون data-i18n ها، همون توابع playTrack/heroSave/openArtist حفظ شدن.
+-->
+
+<div class="hero hero-signature" id="homeHero">
+
+  <div class="hero-grain"></div>
+  <div class="hero-sweep"></div>
 
   <div class="hero-slides">
 
     <!-- SLIDE 1 -->
     <article class="hero-slide active" data-slide="0">
-      <div class="hero-bg" style="background-image:url('images/hero-01.jpg');"></div>
-      <div class="hero-overlay"></div>
+      <div class="hero-field" style="background-image:url('images/hero-01.jpg');"></div>
+      <div class="hero-scrim"></div>
 
-      <div class="hero-content">
-        <div class="eyebrow" data-i18n="heroNewRelease">انتشار جدید</div>
+      <div class="hero-stage">
+        <div class="hero-text">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-line"></span>
+            <span data-i18n="heroNewRelease">انتشار جدید</span>
+          </div>
 
-        <h1>Night Sirens</h1>
+          <h1 class="hero-title">Night Sirens</h1>
 
-        <div class="artist-link"
-             onclick="event.stopPropagation();openArtist('Kairo Vale')">
-          Kairo Vale
+          <div class="hero-sub">
+            <span class="hero-artist" onclick="event.stopPropagation();openArtist('Kairo Vale')">Kairo Vale</span>
+            <span class="hero-meta">
+              <span>4:32</span><span>•</span><span>Hi-Res</span><span>•</span><span>Lossless</span>
+            </span>
+          </div>
+
+          <p class="hero-description" data-i18n="heroDescription1">
+            صدایی تازه برای لحظه‌هایی که فقط موسیقی می‌تواند بسازد.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="playTrack(0,'Night Sirens',true)">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span data-i18n="playNow">پخش آهنگ</span>
+            </button>
+            <button class="hero-save" onclick="heroSave(0)">
+              ＋ <span data-i18n="save">ذخیره</span>
+            </button>
+          </div>
         </div>
 
-        <p class="hero-description" data-i18n="heroDescription1">
-          صدایی تازه برای لحظه‌هایی که فقط موسیقی می‌تواند بسازد.
-        </p>
-
-        <div class="hero-actions">
-          <button class="btn-primary"
-                  onclick="playTrack(0,'Night Sirens',true)">
-            <svg viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span data-i18n="playNow">پخش آهنگ</span>
-          </button>
-
-          <button class="hero-save" onclick="heroSave(0)">
-            ＋ <span data-i18n="save">ذخیره</span>
-          </button>
+        <div class="hero-vinyl-wrap">
+          <div class="hero-vinyl"></div>
+          <img class="hero-vinyl-art" src="images/hero-01.jpg" alt="Night Sirens">
+          <div class="hero-vinyl-hole"></div>
         </div>
-
-        <div class="hero-meta">
-          <span>4:32</span>
-          <span>•</span>
-          <span>Hi-Res</span>
-          <span>•</span>
-          <span>Lossless</span>
-        </div>
-      </div>
-
-      <div class="hero-cover-wrap">
-        <img
-          class="hero-cover"
-          src="images/hero-01.jpg"
-          alt="Night Sirens">
       </div>
     </article>
-
 
     <!-- SLIDE 2 -->
     <article class="hero-slide" data-slide="1">
-      <div class="hero-bg" style="background-image:url('images/hero-02.jpg');"></div>
-      <div class="hero-overlay"></div>
+      <div class="hero-field" style="background-image:url('images/hero-02.jpg');"></div>
+      <div class="hero-scrim"></div>
 
-      <div class="hero-content">
-        <div class="eyebrow" data-i18n="heroTrending">ترند این روزها</div>
+      <div class="hero-stage">
+        <div class="hero-text">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-line"></span>
+            <span data-i18n="heroTrending">ترند این روزها</span>
+          </div>
 
-        <h1>Neon Dreams</h1>
+          <h1 class="hero-title">Neon Dreams</h1>
 
-        <div class="artist-link">
-          BXMUSIC Artist
+          <div class="hero-sub">
+            <span class="hero-artist">BXMUSIC Artist</span>
+            <span class="hero-meta">
+              <span>3:48</span><span>•</span><span>Hi-Res</span><span>•</span><span>Lossless</span>
+            </span>
+          </div>
+
+          <p class="hero-description" data-i18n="heroDescription2">
+            آهنگ‌هایی که این روزها بیشتر از همیشه شنیده می‌شوند.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="playTrack(1,'Neon Dreams',true)">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span data-i18n="playNow">پخش آهنگ</span>
+            </button>
+            <button class="hero-save" onclick="heroSave(1)">
+              ＋ <span data-i18n="save">ذخیره</span>
+            </button>
+          </div>
         </div>
 
-        <p class="hero-description" data-i18n="heroDescription2">
-          آهنگ‌هایی که این روزها بیشتر از همیشه شنیده می‌شوند.
-        </p>
-
-        <div class="hero-actions">
-          <button class="btn-primary"
-                  onclick="playTrack(1,'Neon Dreams',true)">
-            <svg viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span data-i18n="playNow">پخش آهنگ</span>
-          </button>
-
-          <button class="hero-save" onclick="heroSave(1)">
-            ＋ <span data-i18n="save">ذخیره</span>
-          </button>
+        <div class="hero-vinyl-wrap">
+          <div class="hero-vinyl"></div>
+          <img class="hero-vinyl-art" src="images/hero-02.jpg" alt="Neon Dreams">
+          <div class="hero-vinyl-hole"></div>
         </div>
-
-        <div class="hero-meta">
-          <span>3:48</span>
-          <span>•</span>
-          <span>Hi-Res</span>
-          <span>•</span>
-          <span>Lossless</span>
-        </div>
-      </div>
-
-      <div class="hero-cover-wrap">
-        <img
-          class="hero-cover"
-          src="images/hero-02.jpg"
-          alt="Neon Dreams">
       </div>
     </article>
-
 
     <!-- SLIDE 3 -->
     <article class="hero-slide" data-slide="2">
-      <div class="hero-bg" style="background-image:url('images/hero-03.jpg');"></div>
-      <div class="hero-overlay"></div>
+      <div class="hero-field" style="background-image:url('images/hero-03.jpg');"></div>
+      <div class="hero-scrim"></div>
 
-      <div class="hero-content">
-        <div class="eyebrow" data-i18n="heroMadeForYou">مخصوص شما</div>
+      <div class="hero-stage">
+        <div class="hero-text">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-line"></span>
+            <span data-i18n="heroMadeForYou">مخصوص شما</span>
+          </div>
 
-        <h1>Midnight Motion</h1>
+          <h1 class="hero-title">Midnight Motion</h1>
 
-        <div class="artist-link">
-          BXMUSIC
+          <div class="hero-sub">
+            <span class="hero-artist">BXMUSIC</span>
+            <span class="hero-meta">
+              <span>4:10</span><span>•</span><span>Hi-Res</span><span>•</span><span>Lossless</span>
+            </span>
+          </div>
+
+          <p class="hero-description" data-i18n="heroDescription3">
+            انتخابی برای حال‌وهوای امشب شما.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="playTrack(2,'Midnight Motion',true)">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span data-i18n="playNow">پخش آهنگ</span>
+            </button>
+            <button class="hero-save" onclick="heroSave(2)">
+              ＋ <span data-i18n="save">ذخیره</span>
+            </button>
+          </div>
         </div>
 
-        <p class="hero-description" data-i18n="heroDescription3">
-          انتخابی برای حال‌وهوای امشب شما.
-        </p>
-
-        <div class="hero-actions">
-          <button class="btn-primary"
-                  onclick="playTrack(2,'Midnight Motion',true)">
-            <svg viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span data-i18n="playNow">پخش آهنگ</span>
-          </button>
-
-          <button class="hero-save" onclick="heroSave(2)">
-            ＋ <span data-i18n="save">ذخیره</span>
-          </button>
+        <div class="hero-vinyl-wrap">
+          <div class="hero-vinyl"></div>
+          <img class="hero-vinyl-art" src="images/hero-03.jpg" alt="Midnight Motion">
+          <div class="hero-vinyl-hole"></div>
         </div>
-
-        <div class="hero-meta">
-          <span>4:10</span>
-          <span>•</span>
-          <span>Hi-Res</span>
-          <span>•</span>
-          <span>Lossless</span>
-        </div>
-      </div>
-
-      <div class="hero-cover-wrap">
-        <img
-          class="hero-cover"
-          src="images/hero-03.jpg"
-          alt="Midnight Motion">
       </div>
     </article>
-
 
     <!-- SLIDE 4 -->
     <article class="hero-slide" data-slide="3">
-      <div class="hero-bg" style="background-image:url('images/hero-04.jpg');"></div>
-      <div class="hero-overlay"></div>
+      <div class="hero-field" style="background-image:url('images/hero-04.jpg');"></div>
+      <div class="hero-scrim"></div>
 
-      <div class="hero-content">
-        <div class="eyebrow" data-i18n="heroHifi">کیفیت Hi-Fi</div>
+      <div class="hero-stage">
+        <div class="hero-text">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-line"></span>
+            <span data-i18n="heroHifi">کیفیت Hi-Fi</span>
+          </div>
 
-        <h1>Hear Every Detail</h1>
+          <h1 class="hero-title">Hear Every Detail</h1>
 
-        <div class="artist-link">
-          BXMUSIC
+          <div class="hero-sub">
+            <span class="hero-artist">BXMUSIC</span>
+            <span class="hero-meta">
+              <span>5:02</span><span>•</span><span>Master</span><span>•</span><span>Lossless</span>
+            </span>
+          </div>
+
+          <p class="hero-description" data-i18n="heroDescription4">
+            موسیقی را با تمام جزئیات و کیفیت واقعی آن تجربه کنید.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="playTrack(3,'Hear Every Detail',true)">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span data-i18n="playNow">پخش آهنگ</span>
+            </button>
+            <button class="hero-save" onclick="heroSave(3)">
+              ＋ <span data-i18n="save">ذخیره</span>
+            </button>
+          </div>
         </div>
 
-        <p class="hero-description" data-i18n="heroDescription4">
-          موسیقی را با تمام جزئیات و کیفیت واقعی آن تجربه کنید.
-        </p>
-
-        <div class="hero-actions">
-          <button class="btn-primary"
-                  onclick="playTrack(3,'Hear Every Detail',true)">
-            <svg viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span data-i18n="playNow">پخش آهنگ</span>
-          </button>
-
-          <button class="hero-save" onclick="heroSave(3)">
-            ＋ <span data-i18n="save">ذخیره</span>
-          </button>
+        <div class="hero-vinyl-wrap">
+          <div class="hero-vinyl"></div>
+          <img class="hero-vinyl-art" src="images/hero-04.jpg" alt="Hear Every Detail">
+          <div class="hero-vinyl-hole"></div>
         </div>
-
-        <div class="hero-meta">
-          <span>5:02</span>
-          <span>•</span>
-          <span>Master</span>
-          <span>•</span>
-          <span>Lossless</span>
-        </div>
-      </div>
-
-      <div class="hero-cover-wrap">
-        <img
-          class="hero-cover"
-          src="images/hero-04.jpg"
-          alt="Hear Every Detail">
       </div>
     </article>
 
   </div>
 
-
-  <!-- ARROWS -->
-  <button
-    class="hero-arrow hero-prev"
-    id="heroPrev"
-    type="button"
-    aria-label="اسلاید قبلی">
-    ‹
-  </button>
-
-  <button
-    class="hero-arrow hero-next"
-    id="heroNext"
-    type="button"
-    aria-label="اسلاید بعدی">
-    ›
-  </button>
-
-
-  <!-- DOTS -->
-  <div class="hero-dots" id="heroDots">
-    <button class="hero-dot active" data-slide="0"></button>
-    <button class="hero-dot" data-slide="1"></button>
-    <button class="hero-dot" data-slide="2"></button>
-    <button class="hero-dot" data-slide="3"></button>
+  <!-- FOOTER: shared numbered tabs + waveform-as-progress (no arrows, no dots) -->
+  <div class="hero-footer">
+    <div class="hero-tabs" id="heroTabs">
+      <button class="hero-tab active" data-slide="0">01</button>
+      <button class="hero-tab" data-slide="1">02</button>
+      <button class="hero-tab" data-slide="2">03</button>
+      <button class="hero-tab" data-slide="3">04</button>
+    </div>
+    <div class="hero-waveform" id="heroWaveform"></div>
   </div>
 
-      </div>
+</div>
+    
       <section>
         <div class="section-head"><h2 data-i18n="madeForYou">Made for you</h2><span data-i18n="seeAll">See all</span></div>
         <div class="hstrip" id="madeForYou"></div>
