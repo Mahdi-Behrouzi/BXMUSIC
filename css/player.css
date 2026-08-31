@@ -62,6 +62,10 @@
   height:16px;
   stroke:var(--dim);
 }
+.mp-controls svg.liked {
+  stroke: var(--a2);
+  fill: var(--a2);
+}
 
 .mp-close-btn {
   width:30px;
