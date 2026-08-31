@@ -312,31 +312,36 @@ function waveY(i){
   const t = i / WAVE_POINTS;
   return WAVE_H/2 + Math.sin(t*Math.PI*2*WAVE_CYCLES + wavePhase) * WAVE_AMP;
 }
-function buildWavePath(){
-  let d = '';
-  for(let i=0;i<=WAVE_POINTS;i++){
-    const x = (i/WAVE_POINTS)*WAVE_W;
-    const y = waveY(i);
-    d += (i===0 ? 'M' : 'L') + x.toFixed(1) + ' ' + y.toFixed(2) + ' ';
+const EQ_BARS = 46;
+let eqBarsBuilt = false;
+
+function buildEqBars(){
+  const track = document.getElementById('waveProgress');
+  if(!track || eqBarsBuilt) return;
+  track.innerHTML = '';
+  for(let i=0;i<EQ_BARS;i++){
+    const bar = document.createElement('div');
+    bar.className = 'eq-bar';
+    const h = 8 + Math.round(Math.abs(Math.sin(i*0.7 + 0.3)) * 22);
+    bar.style.height = h + 'px';
+    track.appendChild(bar);
   }
-  return d;
+  eqBarsBuilt = true;
 }
+
 function renderWaveProgress(){
-  const d = buildWavePath();
-  document.getElementById('waveBgPath').setAttribute('d', d);
-  document.getElementById('waveFgPath').setAttribute('d', d);
-  const clipW = (progress/100) * WAVE_W;
-  document.getElementById('waveClipRect').setAttribute('width', clipW.toFixed(1));
-  const dotT = (progress/100) * WAVE_POINTS;
-  const dotX = (progress/100) * WAVE_W;
-  const dotY = waveY(dotT);
-  const dot = document.getElementById('waveDot');
-  dot.setAttribute('cx', dotX.toFixed(1));
-  dot.setAttribute('cy', dotY.toFixed(2));
+  buildEqBars();
+  const bars = document.querySelectorAll('#waveProgress .eq-bar');
+  const activeCount = Math.round((progress/100) * bars.length);
+  bars.forEach((b,i) => {
+    b.classList.toggle('played', i < activeCount);
+    b.classList.toggle('head', i === activeCount - 1);
+  });
 }
+
 function seekFromWave(evt){
-  const svg = document.getElementById('waveProgress');
-  const rect = svg.getBoundingClientRect();
+  const track = document.getElementById('waveProgress');
+  const rect = track.getBoundingClientRect();
   const x = evt.clientX - rect.left;
   progress = Math.max(0, Math.min(100, (x/rect.width)*100));
   if(usingRealAudio){
