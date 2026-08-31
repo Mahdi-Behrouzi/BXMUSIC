@@ -382,18 +382,23 @@
   width:100%;
   height:36px;
   display:flex;
-  align-items:center;
-  gap:2.5px;
+  align-items:flex-end;
+  gap:2px;
   margin-bottom:2px;
   cursor:pointer;
+  touch-action:none;
 }
 
 .eq-bar {
   flex:1;
-  min-width:2px;
+  min-width:1.5px;
+  height:34px;
   border-radius:3px;
   background:var(--surface-3);
-  transition:background .25s ease, box-shadow .25s ease, transform .15s ease;
+  transform-origin:bottom;
+  transform:scaleY(var(--h, .28));
+  transition:background .2s ease, box-shadow .2s ease;
+  will-change:transform;
 }
 
 .eq-bar.played {
@@ -402,18 +407,7 @@
 
 .eq-bar.head {
   box-shadow:0 0 10px 1px rgba(236,72,153,.7), 0 0 20px 4px rgba(139,92,246,.35);
-  animation:eqPulse 1s ease-in-out infinite;
 }
-
-@keyframes eqPulse {
-  0%,100% { transform:scaleY(1); }
-  50% { transform:scaleY(1.18); }
-}
-
-.eq-progress:hover .eq-bar {
-  transform:scaleY(1.06);
-}
-
 .np-times {
   display:flex;
   justify-content:space-between;
