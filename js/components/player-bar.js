@@ -318,18 +318,11 @@ function renderKaraokeLines(){
 
 
 /* ================= WAVE PROGRESS BAR (original Musix signature UI) ================= */
-
-let wavePhase = 0;
 let usingRealAudio = false;
 function formatTime(sec){
   if(!isFinite(sec) || sec<0) return '0:00';
   const m = Math.floor(sec/60), s = Math.floor(sec%60);
   return m+':'+String(s).padStart(2,'0');
-}
-const WAVE_W = 300, WAVE_H = 36, WAVE_POINTS = 46, WAVE_AMP = 9, WAVE_CYCLES = 5;
-function waveY(i){
-  const t = i / WAVE_POINTS;
-  return WAVE_H/2 + Math.sin(t*Math.PI*2*WAVE_CYCLES + wavePhase) * WAVE_AMP;
 }
 const EQ_BARS = 80;
 let eqBarsBuilt = false;
