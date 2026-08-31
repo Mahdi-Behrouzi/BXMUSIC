@@ -128,8 +128,14 @@ function updatePlayIcons(){
   const dpIcon = document.getElementById('drivingPlayIcon');
   if(dpIcon) dpIcon.innerHTML = playing ? pause : play;
 }
-function openNowPlaying(){ document.getElementById('npSheet').classList.add('open'); }
-function closeNowPlaying(){ document.getElementById('npSheet').classList.remove('open'); }
+function openNowPlaying(){
+  document.getElementById('npSheet').classList.add('open');
+  if(audioCtx) startVisualizerLoop();
+}
+function closeNowPlaying(){
+  document.getElementById('npSheet').classList.remove('open');
+  stopVisualizerLoop();
+}
 function toggleLyrics(){
   const body = document.getElementById('npLyricsBody');
   const preview = document.getElementById('npLyricsPreview');
@@ -157,7 +163,7 @@ function ensureAudio(){
   bassFilter.connect(midFilter); midFilter.connect(trebleFilter); trebleFilter.connect(qualityLowpass);
   qualityLowpass.connect(analyser); analyser.connect(masterGain); masterGain.connect(audioCtx.destination);
   buildVisualizerBars();
-  requestAnimationFrame(renderVisualizer);
+  startVisualizerLoop();
 }
 function playNote(freq, dur){
   if(!audioCtx) return;
@@ -187,7 +193,20 @@ function buildVisualizerBars(){
   if(el.children.length) return;
   el.innerHTML = Array.from({length:24}).map(()=>'<div class="bar"></div>').join('');
 }
+let visualizerRAF = null;
+
+function startVisualizerLoop(){
+  if(visualizerRAF) return;
+  visualizerRAF = requestAnimationFrame(renderVisualizer);
+}
+function stopVisualizerLoop(){
+  if(visualizerRAF){ cancelAnimationFrame(visualizerRAF); visualizerRAF = null; }
+}
 function renderVisualizer(){
+  if(!document.getElementById('npSheet').classList.contains('open')){
+    visualizerRAF = null;
+    return;
+  }
   if(analyser){
     const data = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(data);
@@ -196,7 +215,7 @@ function renderVisualizer(){
       b.style.height = (playing ? Math.max(3,(v/255)*34) : 3) + 'px';
     });
   }
-  requestAnimationFrame(renderVisualizer);
+  visualizerRAF = requestAnimationFrame(renderVisualizer);
 }
 
 
