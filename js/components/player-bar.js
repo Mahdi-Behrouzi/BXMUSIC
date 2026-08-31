@@ -331,30 +331,52 @@ function waveY(i){
   const t = i / WAVE_POINTS;
   return WAVE_H/2 + Math.sin(t*Math.PI*2*WAVE_CYCLES + wavePhase) * WAVE_AMP;
 }
-const EQ_BARS = 46;
+const EQ_BARS = 80;
 let eqBarsBuilt = false;
+let eqBaseH = [];
+let eqDragging = false;
 
 function buildEqBars(){
   const track = document.getElementById('waveProgress');
   if(!track || eqBarsBuilt) return;
   track.innerHTML = '';
+  eqBaseH = [];
   for(let i=0;i<EQ_BARS;i++){
     const bar = document.createElement('div');
     bar.className = 'eq-bar';
-    const h = 8 + Math.round(Math.abs(Math.sin(i*0.7 + 0.3)) * 22);
-    bar.style.height = h + 'px';
+    const h = 0.18 + Math.abs(Math.sin(i*0.5 + 0.3)) * 0.55;
+    eqBaseH.push(h);
+    bar.style.setProperty('--h', h.toFixed(2));
     track.appendChild(bar);
   }
   eqBarsBuilt = true;
+  track.addEventListener('mousedown', e => { eqDragging = true; seekFromWave(e); });
+  window.addEventListener('mousemove', e => { if(eqDragging) seekFromWave(e); });
+  window.addEventListener('mouseup', () => eqDragging = false);
+  track.addEventListener('touchstart', e => { eqDragging = true; seekFromWave(e.touches[0]); }, {passive:true});
+  track.addEventListener('touchmove', e => { if(eqDragging) seekFromWave(e.touches[0]); }, {passive:true});
+  window.addEventListener('touchend', () => eqDragging = false);
 }
 
 function renderWaveProgress(){
   buildEqBars();
   const bars = document.querySelectorAll('#waveProgress .eq-bar');
   const activeCount = Math.round((progress/100) * bars.length);
+  let freqData = null;
+  if(analyser && playing){
+    freqData = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(freqData);
+  }
   bars.forEach((b,i) => {
     b.classList.toggle('played', i < activeCount);
     b.classList.toggle('head', i === activeCount - 1);
+    if(freqData){
+      const v = freqData[i % freqData.length] || 0;
+      const h = Math.min(1, eqBaseH[i] + (v/255) * 0.55);
+      b.style.setProperty('--h', h.toFixed(2));
+    } else {
+      b.style.setProperty('--h', eqBaseH[i].toFixed(2));
+    }
   });
 }
 
@@ -369,7 +391,6 @@ function seekFromWave(evt){
   }
   renderWaveProgress();
 }
-
 document.getElementById('realAudioEl').addEventListener('loadedmetadata', function(){
   if(usingRealAudio) document.getElementById('npTot').textContent = formatTime(this.duration);
 });
@@ -385,11 +406,11 @@ document.getElementById('realAudioEl').addEventListener('ended', () => {
 });
 
 setInterval(() => {
-  wavePhase += playing ? 0.09 : 0.015;
   const realAudio = document.getElementById('realAudioEl');
+  const isOpen = document.getElementById('npSheet').classList.contains('open');
   if(usingRealAudio && realAudio.duration){
     progress = (realAudio.currentTime/realAudio.duration)*100;
-    document.getElementById('npCur').textContent = formatTime(realAudio.currentTime);
+    if(isOpen) document.getElementById('npCur').textContent = formatTime(realAudio.currentTime);
   } else if(playing){
     progress += 0.5;
     if(progress>=100){
@@ -397,9 +418,5 @@ setInterval(() => {
       if(repeatMode!=='one'){ nextTrack(); return; }
     }
   }
-  renderWaveProgress();
+  if(isOpen) renderWaveProgress();
 }, 300);
-
-document.getElementById('searchInput').addEventListener('input', e => renderSearch(e.target.value));
-
-
