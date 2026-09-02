@@ -1,10 +1,15 @@
-
 /* ================= NAV / SCREENS ================= */
+
+// track current active screen name so other modules can react
+window.currentScreen = window.currentScreen || 'home';
 
 function switchScreen(name){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');
+  const el = document.getElementById('screen-'+name);
+  if (el) el.classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav===name));
+  // expose current screen name for other code
+  window.currentScreen = name;
   if(name==='library') renderLibBody(document.querySelector('#libChips .chip.active')?.dataset.chip || 'Playlists');
   if(name==='profile') renderProfile();
   if(name==='friends') renderFriendsList();
@@ -35,4 +40,3 @@ function toggleDrawerMenu(){
     openDrawer();
   }
 }
-
