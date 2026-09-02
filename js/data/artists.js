@@ -1,6 +1,6 @@
 // BXMUSIC artist and social data
 const artists = {
-  "Kairo Vale":{followers:"28.4M", tracks:[0,1,2,3,4]},
+  "Kairo Vale":{followers:"28.4M", tracks:[1,2,3,4]},
   "Nova Rey":{followers:"9.1M", tracks:[5]},
   "Selene Marsh":{followers:"6.4M", tracks:[6]},
   "Dax Holloway":{followers:"4.2M", tracks:[7]},

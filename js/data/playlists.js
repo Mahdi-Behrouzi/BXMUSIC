@@ -9,7 +9,7 @@ const madeForYou = [
   {name:"Focus Flow", sub:"Deep focus, no distractions", i:2},
 ];
 const recent = [
-  {name:"Night Sirens", i:0},{name:"Halflight", i:6},{name:"Paper Cities", i:5},
+  {name:"Night Sirens", i:1},{name:"Halflight", i:6},{name:"Paper Cities", i:5},
   {name:"Solstice", i:7},{name:"Amber Radio", i:4},{name:"Low Tide Diaries", i:3},{name:"Static Bloom", i:2},
 ];
 const genres = ["Mood","Workout","Chill","Focus","Party","Rock"];
