@@ -133,17 +133,19 @@ function updatePlayIcons(){
 function openNowPlaying(){
   // prevent immediate reopen if we just closed (avoid bubbling/race conditions)
   if(window.nowPlayingLocked) return;
+  console.log('openNowPlaying called', { nowPlayingLocked: window.nowPlayingLocked, currentScreen: window.currentScreen });
   document.getElementById('npSheet').classList.add('open');
   if(audioCtx) startVisualizerLoop();
 }
 function closeNowPlaying(){
+  console.log('closeNowPlaying called', { nowPlayingLocked: window.nowPlayingLocked, currentScreen: window.currentScreen });
   document.getElementById('npSheet').classList.remove('open');
   stopVisualizerLoop();
   // also close miniplayer to avoid UI getting stuck behind overlays
   try{ if(typeof closeMiniplayer === 'function') closeMiniplayer(); }catch(e){}
   // prevent immediate reopen for a short window
   window.nowPlayingLocked = true;
-  setTimeout(() => { window.nowPlayingLocked = false; }, 220);
+  setTimeout(() => { window.nowPlayingLocked = false; }, 400);
   // if user was viewing library, ensure we leave that screen so UI is usable
   try{
     if(window.currentScreen === 'library' && typeof switchScreen === 'function') switchScreen('home');
