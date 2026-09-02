@@ -37,6 +37,18 @@ document.getElementById('castIcon').style.color = 'var(--dim)';
 
 // ================= HERO SIGNATURE =================
 
+function heroSave(slideIndex){
+  const hero = document.getElementById('homeHero');
+  if(!hero) return;
+  const btn = hero.querySelector('.hero-slide[data-slide="'+slideIndex+'"] .hero-save');
+  if(!btn) return;
+  const isSaved = btn.classList.toggle('saved');
+  btn.innerHTML = isSaved
+    ? '✓ <span data-i18n="save">'+(lang==='fa' ? 'ذخیره شد' : 'Saved')+'</span>'
+    : '＋ <span data-i18n="save">'+(lang==='fa' ? 'ذخیره' : 'Save')+'</span>';
+  showToast(isSaved ? (lang==='fa' ? 'به ذخیره‌شده‌ها اضافه شد' : 'Added to your saves') : (lang==='fa' ? 'از ذخیره‌شده‌ها حذف شد' : 'Removed from saves'));
+}
+
 (function initHeroSignature() {
   const BAR_COUNT = 56;
   const DURATION = 7000; // ms per slide — همون عددی که با startAutoPlay قبلی معادل بود، دلخواه قابل تغییره
