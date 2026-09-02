@@ -1,7 +1,5 @@
-/* ================= PLAYER ================= */
 
-// Short-term guard to prevent immediate reopen after close (avoids click bubbling / race conditions)
-window.nowPlayingLocked = window.nowPlayingLocked || false;
+/* ================= PLAYER ================= */
 
 function playTrack(i, label, openSheet){
   if(offlineMode && !downloads.has(i) && !(tracks[i] && tracks[i].isUpload)){
@@ -62,7 +60,7 @@ function cycleRepeat(){
   repeatMode = repeatMode==='off' ? 'all' : repeatMode==='all' ? 'one' : 'off';
   document.getElementById('repeatIcon').classList.toggle('active', repeatMode!=='off');
   document.getElementById('repeatOneBadge').classList.toggle('hidden', repeatMode!=='one');
-  const label = repeatMode==='off' ? (lang==='fa'?'تکرار خاموش':'Repeat off') : repeatMode==='one' ? (lang==='fa'?'تکرار یک آهنگ':'Repeat one') : (lang==='fa'?'تکرار هم':'Repeat all');
+  const label = repeatMode==='off' ? (lang==='fa'?'تکرار خاموش':'Repeat off') : repeatMode==='one' ? (lang==='fa'?'تکرار یک آهنگ':'Repeat one') : (lang==='fa'?'تکرار همه':'Repeat all');
   showToast(label);
 }
 function togglePlay(){
@@ -131,35 +129,12 @@ function updatePlayIcons(){
   if(dpIcon) dpIcon.innerHTML = playing ? pause : play;
 }
 function openNowPlaying(){
-  // prevent immediate reopen if we just closed (avoid bubbling/race conditions)
-  if(window.nowPlayingLocked) return;
-  console.log('openNowPlaying called', { nowPlayingLocked: window.nowPlayingLocked, currentScreen: window.currentScreen });
   document.getElementById('npSheet').classList.add('open');
   if(audioCtx) startVisualizerLoop();
 }
 function closeNowPlaying(){
-  console.log('closeNowPlaying called', { nowPlayingLocked: window.nowPlayingLocked, currentScreen: window.currentScreen });
   document.getElementById('npSheet').classList.remove('open');
   stopVisualizerLoop();
-  // also close miniplayer to avoid UI getting stuck behind overlays
-  try{ if(typeof closeMiniplayer === 'function') closeMiniplayer(); }catch(e){}
-  // prevent immediate reopen for a short window
-  window.nowPlayingLocked = true;
-  setTimeout(() => { window.nowPlayingLocked = false; }, 400);
-  // if user was viewing library, ensure we leave that screen so UI is usable
-  try{
-    if(window.currentScreen === 'library' && typeof switchScreen === 'function') switchScreen('home');
-  } catch(e){}
-}
-// New helper: explicit exit that callers can use (safer than direct closeNowPlaying)
-function exitNowPlayingAndLeaveLibrary(targetScreen = 'home'){
-  console.log('exitNowPlayingAndLeaveLibrary ->', { targetScreen, currentScreen: window.currentScreen });
-  if (typeof closeNowPlaying === 'function') closeNowPlaying();
-  // ensure miniplayer closed as well
-  if (typeof closeMiniplayer === 'function') closeMiniplayer();
-  if (typeof switchScreen === 'function'){
-    if(window.currentScreen === 'library' || targetScreen !== window.currentScreen) switchScreen(targetScreen);
-  }
 }
 function toggleLyrics(){
   const body = document.getElementById('npLyricsBody');
@@ -251,9 +226,9 @@ function openEqSheet(){ ensureAudio(); document.getElementById('eqBackdrop').cla
 function closeEqSheet(){ document.getElementById('eqBackdrop').classList.remove('open'); document.getElementById('eqSheet').classList.remove('open'); }
 function updateEQ(band, val){
   ensureAudio(); val = parseFloat(val);
-  if(band==='bass'){ bassFilter.gain.value=val; document.getElementById('eqBassVal').textContent =val+'dB'; }
-  if(band==='mid'){ midFilter.gain.value=val; document.getElementById('eqMidVal').textContent =val+'dB'; }
-  if(band==='treble'){ trebleFilter.gain.value=val; document.getElementById('eqTrebleVal').textContent =val+'dB'; }
+  if(band==='bass'){ bassFilter.gain.value=val; document.getElementById('eqBassVal').textContent=val+'dB'; }
+  if(band==='mid'){ midFilter.gain.value=val; document.getElementById('eqMidVal').textContent=val+'dB'; }
+  if(band==='treble'){ trebleFilter.gain.value=val; document.getElementById('eqTrebleVal').textContent=val+'dB'; }
 }
 function resetEQ(){
   ['eqBass','eqMid','eqTreble'].forEach(id => document.getElementById(id).value = 0);
