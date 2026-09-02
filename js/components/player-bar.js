@@ -356,10 +356,10 @@ function renderWaveProgress(){
   const bars = document.querySelectorAll('#waveProgress .eq-bar');
   const activeCount = Math.round((progress/100) * bars.length);
   let freqData = null;
-  if(analyser && playing){
+  if(false){
     freqData = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(freqData);
-  }
+      }
   bars.forEach((b,i) => {
     b.classList.toggle('played', i < activeCount);
     b.classList.toggle('head', i === activeCount - 1);
