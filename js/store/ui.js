@@ -23,7 +23,7 @@ let listenHistory = [];
 let playHistoryLog = [];
 let currentCommentTrack = null;
 const comments = {
-  0: [{user:'Ava', color:'#ec4899', text:'This one hits different at night 🌙', time:'2d ago'}, {user:'Sina', color:'#34d1a0', text:'The bridge on this is so good', time:'1d ago'}],
+  1: [{user:'Ava', color:'#ec4899', text:'This one hits different at night 🌙', time:'2d ago'}, {user:'Sina', color:'#34d1a0', text:'The bridge on this is so good', time:'1d ago'}],
   3: [{user:'Reza', color:'#5cc8f2', text:'Low Tide Diaries is criminally underrated', time:'5h ago'}],
 };
 let followedFriends = new Set();

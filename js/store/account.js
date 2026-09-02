@@ -19,9 +19,20 @@ async function initAccount() {
     return;
   }
 
-  window.bxSupabase = window.supabase.createClient(url, key);
+  try {
+    window.bxSupabase = window.supabase.createClient(url, key);
+  } catch (e) {
+    console.warn("BXMUSIC: Invalid Supabase URL/key — fill in js/config/supabase.js with your real project values.", e);
+    return;
+  }
 
-  const { data, error } = await window.bxSupabase.auth.getSession();
+  let data, error;
+  try {
+    ({ data, error } = await window.bxSupabase.auth.getSession());
+  } catch (e) {
+    console.warn("BXMUSIC: Could not reach Supabase — check js/config/supabase.js.", e);
+    return;
+  }
 
   if (error) {
     console.error("BXMUSIC: Could not get session.", error);
@@ -98,7 +109,7 @@ async function loadAccountData() {
 async function signInWithGoogle() {
   if (!window.bxSupabase) {
     console.error("BXMUSIC: Supabase is not initialized.");
-    return;
+    return { success: false, error: "Supabase is not initialized." };
   }
 
   const { error } = await window.bxSupabase.auth.signInWithOAuth({
@@ -113,7 +124,10 @@ async function signInWithGoogle() {
       "BXMUSIC: Google sign-in failed.",
       error
     );
+    return { success: false, error: error.message };
   }
+
+  return { success: true };
 }
 
 
@@ -249,6 +263,35 @@ function handleAccountClick(){
     return;
   }
   openAuth();
+}
+
+async function handleSignOutClick(){
+  await signOutAccount();
+  updateAccountUI();
+  if(typeof showToast === 'function') showToast('Signed out');
+}
+
+function updateAccountUI(){
+  const account = window.BXMUSIC_ACCOUNT;
+  const isLoggedIn = !!(account && account.user);
+  const nameEl = document.getElementById('settingsName');
+  const subEl = document.getElementById('accountMenuSub');
+  const signOutRow = document.getElementById('signOutRow');
+
+  if(isLoggedIn){
+    const displayName = account.profile?.full_name || account.user.user_metadata?.full_name || account.user.email || 'Account';
+    if(nameEl) nameEl.textContent = displayName;
+    if(subEl) subEl.textContent = account.user.email || 'Account & Settings';
+    if(signOutRow) signOutRow.classList.remove('hidden');
+    if(typeof profile !== 'undefined'){
+      profile.name = displayName;
+      if(typeof renderProfileHeader === 'function') renderProfileHeader();
+    }
+  } else {
+    if(nameEl) nameEl.textContent = 'Sign in';
+    if(subEl) subEl.textContent = 'Account & Settings';
+    if(signOutRow) signOutRow.classList.add('hidden');
+  }
 }
 function openAuth(){
   const backdrop=document.getElementById('authBackdrop');
