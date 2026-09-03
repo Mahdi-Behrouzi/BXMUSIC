@@ -128,29 +128,48 @@ function updatePlayIcons(){
   const dpIcon = document.getElementById('drivingPlayIcon');
   if(dpIcon) dpIcon.innerHTML = playing ? pause : play;
 }
+let previousScreen = 'home';
+
 function openNowPlaying(){
+  const activeScreen = document.querySelector('.screen.active');
+
+  if(activeScreen && activeScreen.id !== 'screen-home'){
+    previousScreen = activeScreen.id.replace('screen-', '');
+  } else {
+    previousScreen = 'home';
+  }
+
   const sheet = document.getElementById('npSheet');
 
   if(!sheet) return;
 
+  sheet.classList.add('open');
+
+  // اطمینان از اینکه پلیر واقعاً قابل کلیک است
   sheet.style.visibility = 'visible';
   sheet.style.pointerEvents = 'auto';
-  sheet.classList.add('open');
 
   if(audioCtx) startVisualizerLoop();
 }
+
 function closeNowPlaying(){
   const sheet = document.getElementById('npSheet');
 
   if(!sheet) return;
 
+  // بستن فوری پلیر
   sheet.classList.remove('open');
+
+  // جلوگیری از گیر کردن لایه روی صفحه
+  sheet.style.pointerEvents = 'none';
+
   stopVisualizerLoop();
 
-  // اجازه بده انیمیشن خروج کامل شود
+  // بعد از پایان انیمیشن، صفحه قبلی را نگه دار
   setTimeout(() => {
-    sheet.style.visibility = 'hidden';
-    sheet.style.pointerEvents = 'none';
+    if(!sheet.classList.contains('open')){
+      sheet.style.visibility = 'hidden';
+    }
   }, 450);
 }
 function toggleLyrics(){
