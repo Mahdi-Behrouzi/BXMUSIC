@@ -129,12 +129,29 @@ function updatePlayIcons(){
   if(dpIcon) dpIcon.innerHTML = playing ? pause : play;
 }
 function openNowPlaying(){
-  document.getElementById('npSheet').classList.add('open');
+  const sheet = document.getElementById('npSheet');
+
+  if(!sheet) return;
+
+  sheet.style.visibility = 'visible';
+  sheet.style.pointerEvents = 'auto';
+  sheet.classList.add('open');
+
   if(audioCtx) startVisualizerLoop();
 }
 function closeNowPlaying(){
-  document.getElementById('npSheet').classList.remove('open');
+  const sheet = document.getElementById('npSheet');
+
+  if(!sheet) return;
+
+  sheet.classList.remove('open');
   stopVisualizerLoop();
+
+  // اجازه بده انیمیشن خروج کامل شود
+  setTimeout(() => {
+    sheet.style.visibility = 'hidden';
+    sheet.style.pointerEvents = 'none';
+  }, 450);
 }
 function toggleLyrics(){
   const body = document.getElementById('npLyricsBody');
