@@ -266,7 +266,7 @@
   position:absolute;
   inset:0;
   background:#08080c;
-  z-index:105;
+  z-index:600;
   transform:translateY(100%);
   visibility:hidden;
   pointer-events:none;
