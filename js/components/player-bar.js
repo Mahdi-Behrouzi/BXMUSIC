@@ -133,8 +133,6 @@ function openNowPlaying(){
   if(audioCtx) startVisualizerLoop();
 }
 function closeNowPlaying(){
-  const el = document.getElementById('errOverlay');
-  if(el) el.textContent += '\nCLOSE CALLED at ' + Date.now();
   document.getElementById('npSheet').classList.remove('open');
   stopVisualizerLoop();
 }
