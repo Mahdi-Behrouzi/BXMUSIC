@@ -457,6 +457,42 @@
   fill:#fff;
   stroke:none;
 }
+.np-download-row {
+  display:flex;
+  gap:10px;
+  margin:4px 0 18px;
+}
+
+.dl-btn {
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:11px 10px;
+  border-radius:12px;
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  color:var(--text);
+  font-size:12.5px;
+  font-weight:600;
+}
+
+.dl-btn svg {
+  width:16px;
+  height:16px;
+  stroke:var(--dim);
+}
+
+.dl-btn.hires {
+  background:linear-gradient(135deg, rgba(139,92,246,.18), rgba(236,72,153,.14));
+  border-color:rgba(139,92,246,.35);
+  color:var(--hires);
+}
+
+.dl-btn.hires svg {
+  stroke:var(--hires);
+}
 
 .np-icons {
   display:flex;
