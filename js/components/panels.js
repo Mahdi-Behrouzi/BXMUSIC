@@ -133,6 +133,26 @@ function toggleDownloadCurrent(){
   closeActionSheet();
   refreshActiveLists();
     }
+function downloadTrack(i, quality){
+  const tr = tracks[i];
+  if(!tr || !tr.audioUrl){
+    showToast(lang==='fa' ? 'فایلی برای دانلود این آهنگ موجود نیست' : 'No downloadable file for this track');
+    return;
+  }
+  const url = (quality==='hires' && tr.audioUrlHiRes) ? tr.audioUrlHiRes : tr.audioUrl;
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = tr.title + (quality==='hires' ? ' [Hi-Res]' : ' [128kbps]') + '.mp3';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  downloads.add(i);
+  showToast(lang==='fa'
+    ? (quality==='hires' ? 'دانلود با کیفیت بالا شروع شد' : 'دانلود با کیفیت ۱۲۸ شروع شد')
+    : 'Download started');
+  updateDownloadCount();
+  refreshActiveLists();
+}
 function updateDownloadCount(){ const el = document.getElementById('downloadCount'); if(el) el.textContent = downloads.size; }
 function clearDownloads(){ downloads = new Set(); updateDownloadCount(); showToast(t('removedToast')); refreshActiveLists(); }
 
