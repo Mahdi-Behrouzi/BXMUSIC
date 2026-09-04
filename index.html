@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="fa" dir="ltr">
-  
-  <div id="errOverlay" style="display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff2d55;color:#fff;font-family:monospace;font-size:12px;padding:10px;white-space:pre-wrap;direction:ltr;text-align:left;"></div>
+    <div id="errOverlay" style="display:block;position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff2d55;color:#fff;font-family:monospace;font-size:12px;padding:6px;white-space:pre-wrap;direction:ltr;text-align:left;">
+  heartbeat: <span id="hb">0</span>
+</div>
 <script>
+  let hbCount = 0;
+  setInterval(function(){
+    hbCount++;
+    const hbEl = document.getElementById('hb');
+    if(hbEl) hbEl.textContent = hbCount;
+  }, 200);
+
   window.addEventListener('error', function(e){
     const el = document.getElementById('errOverlay');
-    el.style.display = 'block';
-    el.textContent += 'ERROR: ' + e.message + '  (' + e.filename + ':' + e.lineno + ')\n';
+    el.textContent += '\nERROR: ' + e.message + '  (' + e.filename + ':' + e.lineno + ')';
   });
   window.addEventListener('unhandledrejection', function(e){
     const el = document.getElementById('errOverlay');
-    el.style.display = 'block';
-    el.textContent += 'PROMISE ERROR: ' + (e.reason && e.reason.message || e.reason) + '\n';
+    el.textContent += '\nPROMISE ERROR: ' + (e.reason && e.reason.message || e.reason);
   });
 </script>
   
