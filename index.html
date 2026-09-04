@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html lang="fa" dir="ltr">
+  
+  <div id="errOverlay" style="display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#ff2d55;color:#fff;font-family:monospace;font-size:12px;padding:10px;white-space:pre-wrap;direction:ltr;text-align:left;"></div>
+<script>
+  window.addEventListener('error', function(e){
+    const el = document.getElementById('errOverlay');
+    el.style.display = 'block';
+    el.textContent += 'ERROR: ' + e.message + '  (' + e.filename + ':' + e.lineno + ')\n';
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    const el = document.getElementById('errOverlay');
+    el.style.display = 'block';
+    el.textContent += 'PROMISE ERROR: ' + (e.reason && e.reason.message || e.reason) + '\n';
+  });
+</script>
+  
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
