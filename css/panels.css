@@ -274,7 +274,7 @@
   display:flex;
   flex-direction:column;
   padding:16px 20px 24px;
-  overflow-y:auto;
+  overflow:hidden;
 }
 
 #npSheet.open {
@@ -333,15 +333,27 @@
 }
 
 .np-cover-wrap {
-  flex:1;
+  flex-shrink:0;
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:0;
   overflow:hidden;
   margin-bottom:20px;
 }
 
+.np-top,
+.np-track-row,
+.eq-progress,
+.np-times,
+.np-transport {
+  flex-shrink:0;
+}
+
+.np-scroll-area {
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+}
 .np-cover {
   width:min(100%, 320px, 36vh);
   aspect-ratio:1;
