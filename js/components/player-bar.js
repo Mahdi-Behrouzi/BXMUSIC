@@ -358,28 +358,19 @@ function buildEqBars(){
   document.addEventListener('visibilitychange', endDrag);
 }
 
-function lerpColor(a, b, t){
-  const ah=a.replace('#',''), bh=b.replace('#','');
-  const ar=parseInt(ah.substring(0,2),16), ag=parseInt(ah.substring(2,4),16), ab=parseInt(ah.substring(4,6),16);
-  const br=parseInt(bh.substring(0,2),16), bg=parseInt(bh.substring(2,4),16), bb=parseInt(bh.substring(4,6),16);
-  const rr=Math.round(ar+(br-ar)*t), rg=Math.round(ag+(bg-ag)*t), rb=Math.round(ab+(bb-ab)*t);
-  return `rgb(${rr},${rg},${rb})`;
-}
-
 function renderWaveProgress(){
   buildEqBars();
   const bars = document.querySelectorAll('#waveProgress .eq-bar');
-  const activeCount = Math.round((progress/100) * bars.length);
+  const pctExact = (progress / 100) * bars.length;
   let freqData = null;
   if(analyser && playing){
     freqData = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(freqData);
   }
   bars.forEach((b,i) => {
-    const isPlayed = i < activeCount;
-    b.classList.toggle('played', isPlayed);
-    b.classList.toggle('head', i === activeCount - 1);
-    b.style.background = isPlayed ? lerpColor('#8b5cf6', '#ec4899', i / bars.length) : '';
+    const fill = Math.max(0, Math.min(1, pctExact - i));
+    b.style.setProperty('--fill', fill.toFixed(3));
+    b.classList.toggle('head', fill > 0 && fill < 1);
     if(freqData){
       const v = freqData[i % freqData.length] || 0;
       const h = Math.min(1, eqBaseH[i] + (v/255) * 0.5);
