@@ -397,10 +397,20 @@
   background:var(--surface-3);
   transform-origin:bottom;
   transform:scaleY(var(--h, .3));
-  transition:background .3s ease, box-shadow .3s ease;
+  position:relative;
+  overflow:hidden;
   will-change:transform;
 }
 
+.eq-bar::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:var(--grad);
+  transform:scaleX(var(--fill, 0));
+  transform-origin:left;
+  transition:transform .25s linear;
+}
 .eq-bar.head {
   box-shadow:0 0 12px 2px rgba(236,72,153,.6), 0 0 22px 5px rgba(139,92,246,.3);
 }
