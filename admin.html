@@ -34,6 +34,12 @@
     border-radius:10px; padding:11px 13px; font-family:inherit; font-size:14px;
   }
   input[type=text]:focus, input[type=password]:focus{ outline:none; border-color:var(--gold-1); }
+  textarea{
+    width:100%; background:#0d0d10; border:1px solid var(--border); color:var(--cream);
+    border-radius:10px; padding:11px 13px; font-family:inherit; font-size:14px;
+    resize:vertical; min-height:110px; line-height:1.8;
+  }
+  textarea:focus{ outline:none; border-color:var(--gold-1); }
   input[type=file]{
     width:100%; font-size:13px; color:var(--faint);
     background:#0d0d10; border:1px dashed var(--border); border-radius:10px; padding:14px;
@@ -137,6 +143,9 @@
         <input type="text" id="fPlays" placeholder="0">
       </div>
     </div>
+
+    <label>متن آهنگ (اختیاری)</label>
+    <textarea id="fLyrics" placeholder="هر خط از متن رو تو یه خط جدا بنویس"></textarea>
   </div>
 
   <div class="card">
@@ -279,6 +288,7 @@ async function submitSong(){
   const album   = document.getElementById('fAlbum').value.trim();
   const dur     = document.getElementById('fDur').value.trim();
   const plays   = document.getElementById('fPlays').value.trim();
+  const lyricsRaw = document.getElementById('fLyrics').value;
   const coverFile = document.getElementById('fCover').files[0];
   const audioFile = document.getElementById('fAudio').files[0];
 
@@ -329,6 +339,9 @@ async function submitSong(){
       throw new Error('ساختار songs.js عوض شده و پیدا نکردم کجا اضافه کنم — دستی چک کن.');
     }
 
+    const lyricsLines = lyricsRaw.split('\n').map(l => l.trim()).filter(Boolean);
+    const lyricsArr = '[' + lyricsLines.map(l => `"${esc(l)}"`).join(',') + ']';
+
     const newEntryLines = [
       '  {',
       `    title:"${esc(title)}",`,
@@ -336,7 +349,7 @@ async function submitSong(){
       `    album:"${esc(album)}",`,
       dur ? `    dur:"${esc(dur)}",` : null,
       plays ? `    plays:"${esc(plays)}",` : null,
-      '    lyrics:[],',
+      `    lyrics:${lyricsArr},`,
       '    isUpload:true,',
       `    audioUrl:"${esc(audioPath)}",`,
       `    cover:"${esc(coverPath)}",`,
