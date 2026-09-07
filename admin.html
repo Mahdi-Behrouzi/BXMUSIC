@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>BXMUSIC — Admin: Add Song</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080c; --panel:#131316; --border:rgba(255,255,255,.09);
+    --gold-1:#f4c463; --gold-2:#d9822b; --cream:#f3ede0; --faint:#9a958d;
+    --red:#f5567a; --green:#34d1a0;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; min-height:100vh; background:var(--bg); color:var(--cream);
+    font-family:'Vazirmatn',sans-serif; padding:28px 16px 80px;
+  }
+  .wrap{ max-width:560px; margin:0 auto; }
+  h1{ font-size:20px; font-weight:800; margin:0 0 24px; }
+
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:16px;
+    padding:20px; margin-bottom:16px;
+  }
+  .card h2{ font-size:14px; font-weight:700; margin:0 0 14px; color:var(--gold-1); }
+
+  label{ display:block; font-size:12.5px; color:var(--faint); margin:14px 0 6px; }
+  label:first-of-type{ margin-top:0; }
+  input[type=text], input[type=password]{
+    width:100%; background:#0d0d10; border:1px solid var(--border); color:var(--cream);
+    border-radius:10px; padding:11px 13px; font-family:inherit; font-size:14px;
+  }
+  input[type=text]:focus, input[type=password]:focus{ outline:none; border-color:var(--gold-1); }
+  input[type=file]{
+    width:100%; font-size:13px; color:var(--faint);
+    background:#0d0d10; border:1px dashed var(--border); border-radius:10px; padding:14px;
+  }
+  .row2{ display:flex; gap:10px; }
+  .row2 > div{ flex:1; }
+
+  .btn{
+    width:100%; padding:14px; border:none; border-radius:12px;
+    font-family:inherit; font-size:14.5px; font-weight:700; cursor:pointer;
+    background:linear-gradient(135deg,var(--gold-1),var(--gold-2)); color:#20140a;
+    margin-top:6px; transition:filter .15s, transform .15s;
+  }
+  .btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; transform:none; }
+
+  .log{
+    font-size:12.5px; font-family:monospace; direction:ltr; text-align:left;
+    background:#0d0d10; border:1px solid var(--border); border-radius:10px;
+    padding:12px; margin-top:16px; max-height:220px; overflow-y:auto; display:none;
+    line-height:1.9;
+  }
+  .log .ok{ color:var(--green); }
+  .log .err{ color:var(--red); }
+  .log .pending{ color:var(--gold-1); }
+
+  .toggle-remember{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--faint); margin-top:10px; }
+
+  /* step progress + spinner shown while uploading */
+  .steps{ display:none; gap:8px; margin-top:16px; }
+  .step{
+    flex:1; text-align:center; padding:10px 4px; border-radius:10px;
+    background:#0d0d10; border:1px solid var(--border);
+    font-size:11.5px; color:var(--faint); transition:all .3s ease;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .step .dot{ width:18px; height:18px; border-radius:50%; border:2px solid var(--border); position:relative; }
+  .step.active{ border-color:var(--gold-1); color:var(--gold-1); }
+  .step.active .dot{
+    border-color:var(--gold-1); border-top-color:transparent;
+    animation:spin .8s linear infinite;
+  }
+  .step.done{ border-color:var(--green); color:var(--green); }
+  .step.done .dot{ border-color:var(--green); background:var(--green); }
+  .step.done .dot::after{
+    content:''; position:absolute; inset:0; margin:auto;
+    width:5px; height:9px; border:solid #08080c; border-width:0 2px 2px 0;
+    transform:translate(0,-1px) rotate(45deg);
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .log .pending::before{ content:'● '; animation:pulse 1s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>➕ افزودن آهنگ جدید</h1>
+
+  <div class="card">
+    <h2>۱. دسترسی گیت‌هاب</h2>
+    <label>GitHub Token</label>
+    <input type="password" id="ghToken" placeholder="github_pat_...">
+    <div class="toggle-remember">
+      <input type="checkbox" id="rememberToken">
+      <label for="rememberToken" style="margin:0;">توکن رو فقط توی همین مرورگر خودم نگه دار (localStorage)</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>۲. اسم شما</h2>
+    <label>اسمی که به‌عنوان «اضافه‌کننده» ثبت بشه *</label>
+    <input type="text" id="fAdminName" placeholder="مثلاً Mahdi">
+  </div>
+
+  <div class="card">
+    <h2>۳. اطلاعات آهنگ</h2>
+    <label>عنوان آهنگ *</label>
+    <input type="text" id="fTitle" placeholder="مثلاً Night Sirens">
+
+    <div class="row2">
+      <div>
+        <label>خواننده/آرتیست *</label>
+        <input type="text" id="fArtist" placeholder="مثلاً Kairo Vale">
+      </div>
+      <div>
+        <label>آلبوم *</label>
+        <input type="text" id="fAlbum" list="albumList" placeholder="اسم آلبوم">
+        <datalist id="albumList"></datalist>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>مدت‌زمان</label>
+        <input type="text" id="fDur" placeholder="خودکار از فایل صدا پر می‌شه">
+      </div>
+      <div>
+        <label>تعداد پخش (اختیاری)</label>
+        <input type="text" id="fPlays" placeholder="0">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>۴. فایل‌ها</h2>
+    <label>کاور آلبوم (jpg/png) *</label>
+    <input type="file" id="fCover" accept="image/*">
+
+    <label>فایل صدا (mp3) *</label>
+    <input type="file" id="fAudio" accept="audio/*">
+  </div>
+
+  <button class="btn" id="submitBtn" onclick="submitSong()">آپلود و افزودن به سایت</button>
+
+  <div class="steps" id="steps">
+    <div class="step" id="step1"><div class="dot"></div>کاور</div>
+    <div class="step" id="step2"><div class="dot"></div>صدا</div>
+    <div class="step" id="step3"><div class="dot"></div>کاتالوگ</div>
+  </div>
+
+  <div class="log" id="log"></div>
+
+</div>
+
+<script>
+const REPO_OWNER = 'Mahdi-Behrouzi';
+const REPO_NAME  = 'BXMUSIC';
+const BRANCH     = 'main';
+const API = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`;
+
+const tokenEl = document.getElementById('ghToken');
+const rememberEl = document.getElementById('rememberToken');
+const nameEl = document.getElementById('fAdminName');
+const logEl = document.getElementById('log');
+const stepsEl = document.getElementById('steps');
+
+// restore a remembered token, if the admin opted in previously
+if (localStorage.getItem('bx_admin_token')) {
+  tokenEl.value = localStorage.getItem('bx_admin_token');
+  rememberEl.checked = true;
+}
+// the admin's name is not sensitive — always remember it once entered
+if (localStorage.getItem('bx_admin_name')) {
+  nameEl.value = localStorage.getItem('bx_admin_name');
+}
+
+function setStep(n, state){
+  // n: 1|2|3, state: 'active' | 'done'
+  const el = document.getElementById('step'+n);
+  el.classList.remove('active','done');
+  el.classList.add(state);
+}
+function resetSteps(){
+  stepsEl.style.display = 'flex';
+  [1,2,3].forEach(n => document.getElementById('step'+n).classList.remove('active','done'));
+}
+
+function log(msg, cls){
+  logEl.style.display = 'block';
+  const line = document.createElement('div');
+  if(cls) line.className = cls;
+  line.textContent = msg;
+  logEl.appendChild(line);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+// auto-read duration from the chosen audio file
+document.getElementById('fAudio').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const url = URL.createObjectURL(file);
+  const a = new Audio(url);
+  a.addEventListener('loadedmetadata', function(){
+    const total = Math.round(a.duration);
+    const m = Math.floor(total/60), s = String(total%60).padStart(2,'0');
+    document.getElementById('fDur').value = `${m}:${s}`;
+    URL.revokeObjectURL(url);
+  });
+});
+
+// best-effort album suggestions, purely convenience — failure here is harmless
+async function loadAlbumSuggestions(token){
+  try{
+    const res = await fetch(`${API}/js/data/songs.js?ref=${BRANCH}`, { headers: authHeaders(token) });
+    if(!res.ok) return;
+    const data = await res.json();
+    const text = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    const albums = [...new Set([...text.matchAll(/album\s*:\s*"([^"]+)"/g)].map(m => m[1]))];
+    const dl = document.getElementById('albumList');
+    dl.innerHTML = albums.map(a => `<option value="${a.replace(/"/g,'&quot;')}">`).join('');
+  }catch(e){ /* suggestions are optional, ignore failures */ }
+}
+
+function authHeaders(token){
+  return { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' };
+}
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// create or update a file in the repo via the Contents API
+async function putFile(token, path, base64Content, commitMessage){
+  let sha = undefined;
+  const getRes = await fetch(`${API}/${encodeURIComponent(path).replace(/%2F/g,'/')}?ref=${BRANCH}`, { headers: authHeaders(token) });
+  if(getRes.status === 200){
+    const existing = await getRes.json();
+    sha = existing.sha;
+  }
+  const putRes = await fetch(`${API}/${encodeURIComponent(path).replace(/%2F/g,'/')}`, {
+    method:'PUT',
+    headers: { ...authHeaders(token), 'Content-Type':'application/json' },
+    body: JSON.stringify({
+      message: commitMessage,
+      content: base64Content,
+      branch: BRANCH,
+      ...(sha ? { sha } : {})
+    })
+  });
+  if(!putRes.ok){
+    const err = await putRes.json().catch(()=>({}));
+    throw new Error(err.message || `GitHub API error (${putRes.status}) on ${path}`);
+  }
+  return putRes.json();
+}
+
+function esc(str){
+  return String(str).replace(/\\/g,'\\\\').replace(/"/g,'\\"');
+}
+
+async function submitSong(){
+  const token   = tokenEl.value.trim();
+  const adminName = nameEl.value.trim();
+  const title   = document.getElementById('fTitle').value.trim();
+  const artist  = document.getElementById('fArtist').value.trim();
+  const album   = document.getElementById('fAlbum').value.trim();
+  const dur     = document.getElementById('fDur').value.trim();
+  const plays   = document.getElementById('fPlays').value.trim();
+  const coverFile = document.getElementById('fCover').files[0];
+  const audioFile = document.getElementById('fAudio').files[0];
+
+  if(!token) return log('⛔ توکن گیت‌هاب رو وارد کن.', 'err');
+  if(!adminName) return log('⛔ اسم خودت رو وارد کن.', 'err');
+  if(!title || !artist || !album) return log('⛔ عنوان، خواننده و آلبوم الزامی‌ان.', 'err');
+  if(!coverFile) return log('⛔ عکس کاور رو انتخاب کن.', 'err');
+  if(!audioFile) return log('⛔ فایل صدا رو انتخاب کن.', 'err');
+
+  if(rememberEl.checked) localStorage.setItem('bx_admin_token', token);
+  else localStorage.removeItem('bx_admin_token');
+  localStorage.setItem('bx_admin_name', adminName);
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  logEl.innerHTML = '';
+  resetSteps();
+
+  const addedAt = new Date().toISOString();
+
+  try{
+    const coverExt = coverFile.name.split('.').pop();
+    const coverPath = `images/${title}.${coverExt}`;
+    const audioPath = `audio/${title}.mp3`;
+
+    setStep(1,'active');
+    log('⏳ در حال آپلود کاور...', 'pending');
+    const coverB64 = await fileToBase64(coverFile);
+    await putFile(token, coverPath, coverB64, `Add cover for "${title}" (by ${adminName})`);
+    setStep(1,'done');
+    log('✔ کاور آپلود شد: ' + coverPath, 'ok');
+
+    setStep(2,'active');
+    log('⏳ در حال آپلود فایل صدا (ممکنه کمی طول بکشه)...', 'pending');
+    const audioB64 = await fileToBase64(audioFile);
+    await putFile(token, audioPath, audioB64, `Add audio for "${title}" (by ${adminName})`);
+    setStep(2,'done');
+    log('✔ فایل صدا آپلود شد: ' + audioPath, 'ok');
+
+    setStep(3,'active');
+    log('⏳ در حال آپدیت کاتالوگ آهنگ‌ها...', 'pending');
+    const songsRes = await fetch(`${API}/js/data/songs.js?ref=${BRANCH}`, { headers: authHeaders(token) });
+    if(!songsRes.ok) throw new Error('نتونستم songs.js رو بخونم.');
+    const songsData = await songsRes.json();
+    const currentText = decodeURIComponent(escape(atob(songsData.content.replace(/\n/g,''))));
+
+    if(!currentText.includes('\n];')){
+      throw new Error('ساختار songs.js عوض شده و پیدا نکردم کجا اضافه کنم — دستی چک کن.');
+    }
+
+    const newEntryLines = [
+      '  {',
+      `    title:"${esc(title)}",`,
+      `    artist:"${esc(artist)}",`,
+      `    album:"${esc(album)}",`,
+      dur ? `    dur:"${esc(dur)}",` : null,
+      plays ? `    plays:"${esc(plays)}",` : null,
+      '    lyrics:[],',
+      '    isUpload:true,',
+      `    audioUrl:"${esc(audioPath)}",`,
+      `    cover:"${esc(coverPath)}",`,
+      `    addedBy:"${esc(adminName)}",`,
+      `    addedAt:"${addedAt}"`,
+      '  },'
+    ].filter(Boolean).join('\n');
+
+    const updatedText = currentText.replace('\n];', `\n${newEntryLines}\n];`);
+    const updatedB64 = btoa(unescape(encodeURIComponent(updatedText)));
+
+    await putFile(token, 'js/data/songs.js', updatedB64, `Add song: ${title} — ${artist} (by ${adminName})`);
+    setStep(3,'done');
+    log('✔ کاتالوگ آپدیت شد.', 'ok');
+
+    log('🎉 تمام شد! ظرف یکی‌دو دقیقه سایت با آهنگ جدید دوباره منتشر می‌شه.', 'ok');
+  }catch(err){
+    log('⛔ خطا: ' + err.message, 'err');
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+// try loading album suggestions once a token is present
+tokenEl.addEventListener('blur', () => {
+  if(tokenEl.value.trim()) loadAlbumSuggestions(tokenEl.value.trim());
+});
+</script>
+</body>
+</html>
