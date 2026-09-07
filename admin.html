@@ -93,6 +93,23 @@
 
   .log .pending::before{ content:'● '; animation:pulse 1s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+
+  .hist-row{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    padding:11px 4px; border-bottom:1px solid var(--border); font-size:13px;
+  }
+  .hist-row:last-child{ border-bottom:none; }
+  .hist-song{ font-weight:600; }
+  .hist-artist{ color:var(--faint); font-size:12px; }
+  .hist-meta{ text-align:left; font-size:11.5px; color:var(--faint); direction:ltr; white-space:nowrap; }
+  .hist-meta b{ color:var(--gold-1); }
+  .hist-empty{ font-size:13px; color:var(--faint); text-align:center; padding:10px 0; }
+  .btn-secondary{
+    width:100%; padding:11px; border-radius:10px; border:1px solid var(--border);
+    background:transparent; color:var(--cream); font-family:inherit; font-size:13px;
+    cursor:pointer; margin-top:4px;
+  }
+  .btn-secondary:hover{ border-color:var(--gold-1); color:var(--gold-1); }
 </style>
 </head>
 <body>
@@ -166,6 +183,12 @@
   </div>
 
   <div class="log" id="log"></div>
+
+  <div class="card">
+    <h2>📜 تاریخچه‌ی آهنگ‌های اضافه‌شده</h2>
+    <button class="btn-secondary" id="histBtn" onclick="loadHistory()">بارگذاری تاریخچه</button>
+    <div id="histList"></div>
+  </div>
 
 </div>
 
@@ -307,8 +330,6 @@ async function submitSong(){
   logEl.innerHTML = '';
   resetSteps();
 
-  const addedAt = new Date().toISOString();
-
   try{
     const coverExt = coverFile.name.split('.').pop();
     const coverPath = `images/${title}.${coverExt}`;
@@ -352,9 +373,7 @@ async function submitSong(){
       `    lyrics:${lyricsArr},`,
       '    isUpload:true,',
       `    audioUrl:"${esc(audioPath)}",`,
-      `    cover:"${esc(coverPath)}",`,
-      `    addedBy:"${esc(adminName)}",`,
-      `    addedAt:"${addedAt}"`,
+      `    cover:"${esc(coverPath)}"`,
       '  },'
     ].filter(Boolean).join('\n');
 
@@ -366,6 +385,7 @@ async function submitSong(){
     log('✔ کاتالوگ آپدیت شد.', 'ok');
 
     log('🎉 تمام شد! ظرف یکی‌دو دقیقه سایت با آهنگ جدید دوباره منتشر می‌شه.', 'ok');
+    loadHistory();
   }catch(err){
     log('⛔ خطا: ' + err.message, 'err');
   }finally{
@@ -373,7 +393,45 @@ async function submitSong(){
   }
 }
 
-// try loading album suggestions once a token is present
+// history is read straight from git commit history — no separate storage needed,
+// and none of this ever touches the public songs.js content
+async function loadHistory(){
+  const token = tokenEl.value.trim();
+  const listEl = document.getElementById('histList');
+  const btn = document.getElementById('histBtn');
+  if(!token){ listEl.innerHTML = '<div class="hist-empty">اول توکن رو وارد کن.</div>'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'در حال بارگذاری...';
+  try{
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?path=js/data/songs.js&per_page=30`,
+      { headers: authHeaders(token) }
+    );
+    if(!res.ok) throw new Error('نتونستم تاریخچه رو بگیرم.');
+    const commits = await res.json();
+
+    const rows = commits.map(c => {
+      const m = c.commit.message.match(/^Add song:\s*(.+?)\s*—\s*(.+?)\s*\(by\s*(.+?)\)$/);
+      if(!m) return null;
+      const [, title, artist, by] = m;
+      const date = new Date(c.commit.author.date);
+      const dateStr = date.toLocaleString('fa-IR', { dateStyle:'medium', timeStyle:'short' });
+      return `<div class="hist-row">
+        <div><div class="hist-song">${title}</div><div class="hist-artist">${artist}</div></div>
+        <div class="hist-meta"><b>${by}</b><br>${dateStr}</div>
+      </div>`;
+    }).filter(Boolean);
+
+    listEl.innerHTML = rows.length ? rows.join('') : '<div class="hist-empty">هنوز آهنگی از طریق این پنل اضافه نشده.</div>';
+  }catch(err){
+    listEl.innerHTML = `<div class="hist-empty">⛔ ${err.message}</div>`;
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'بارگذاری تاریخچه';
+  }
+}
+
 tokenEl.addEventListener('blur', () => {
   if(tokenEl.value.trim()) loadAlbumSuggestions(tokenEl.value.trim());
 });
