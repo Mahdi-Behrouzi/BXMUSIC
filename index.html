@@ -685,7 +685,12 @@
         <svg class="np-kebab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" onclick="openActionSheet(currentTrack)"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>
       </div>
     </div>
-    <div class="np-cover-wrap"><div class="np-cover" id="npCover"></div></div>
+    <div class="np-cover-wrap">
+  <div class="swiper np-swiper" id="npSwiper">
+    <div class="swiper-wrapper" id="npSwiperWrapper"></div>
+  </div>
+</div>
+<div class="np-swipe-hint" data-i18n="npSwipeHint">← بکش برای عوض‌کردن آهنگ →</div>
     <div class="eq-visualizer" id="eqVisualizer"></div>
     <div class="np-track-row">
       <div><div class="np-track-name" id="npTitle">—</div><div class="np-artist"><span id="npArtistName">—</span> <span class="quality-pill" id="qualityPill" onclick="openQualitySheet()">HI-RES</span></div></div>
