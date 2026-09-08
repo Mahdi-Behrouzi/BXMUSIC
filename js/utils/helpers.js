@@ -56,6 +56,7 @@ const i18n = {
     editProfile:"ویرایش پروفایل",followers:"دنبال‌کننده",yourPlaylists:"پلی‌لیست‌های شما",premium:"پرمیوم",
     playHistory:"تاریخچه پخش",notifications:"اعلان‌ها",drivingMode:"حالت رانندگی",
     yourListeningStats:"آمار شنیدن شما",nothingPlayedYet:"چیزی تو این نشست پخش نشده",
-    noSongsYet:"هنوز آهنگی نیست",offlineMode:"حالت آفلاین",yourLibraryTitle:"کتابخانه شما"}
+    noSongsYet:"No songs yet",offlineMode:"Offline mode",yourLibraryTitle:"Your Library",
+npSwipeHint:"← swipe to change song →"},
 };
 function t(key){ return i18n[lang][key] || key; }
