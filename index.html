@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -654,20 +654,22 @@
     <div class="mp-thumb" id="mpThumb"></div>
     <div class="mp-meta"><div class="mp-title" id="mpTitle">Night Sirens</div><div class="mp-artist" id="mpArtist">Kairo Vale</div></div>
     <div class="mp-controls">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" onclick="event.stopPropagation();toggleLike()" id="mpHeart"><path d="M12 21s-7.5-4.35-10-8.8C.3 8.4 2.5 5 6 5c2.1 0 3.5 1 6 3.2C14.5 6 15.9 5 18 5c3.5 0 5.7 3.4 4 7.2-2.5 4.45-10 8.8-10 8.8z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" onclick="event.stopPropagation();toggleLike()" id="mpHeart"><path d="M12 21s-7-4.35-9.5-8.8C.5 8.4 2.6 5 6 5c2 0 3.3 1 4 2.2C10.7 6 12 5 14 5c3.4 0 5.5 3.4 3.5 7.2C19 16.65 12 21 12 21z"/></svg>
       <div class="mp-play" onclick="event.stopPropagation();togglePlay()"><svg id="mpPlayIcon" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></div>
       <div class="mp-close-btn" onclick="event.stopPropagation();closeMiniplayer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
     </div>
   </div>
 
   <div id="bottomnav">
-  <div class="mn-glow" id="mnGlow"></div>
-  <div class="mn-ring" id="mnRing"></div>
-  <div class="mn-bead" id="mnBead"><svg id="mnBeadIcon" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>
-  <div class="nav-btn active" data-nav="home" data-color="#8b5cf6" onclick="switchScreen('home')">...</div>
-  <div class="nav-btn" data-nav="explore" data-color="#34d1a0" onclick="switchScreen('explore')">...</div>
-  <div class="nav-btn" data-nav="library" data-color="#ec4899" onclick="switchScreen('library')">...</div>
-  <div class="nav-btn" data-nav="search" data-color="#f5b942" onclick="switchScreen('search')">...</div>
+    <div class="mn-glow" id="mnGlow"></div>
+    <div class="mn-ring" id="mnRing"></div>
+    <div class="mn-bead" id="mnBead"><svg id="mnBeadIcon" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>
+    <div class="nav-btn active" data-nav="home" data-color="#8b5cf6" onclick="switchScreen('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span data-i18n="home">Home</span></div>
+    <div class="nav-btn" data-nav="explore" data-color="#34d1a0" onclick="switchScreen('explore')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2.5 6-3.5-2.5L15 9z"/></svg><span data-i18n="explore">Explore</span></div>
+    <div class="nav-btn" data-nav="library" data-color="#ec4899" onclick="switchScreen('library')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 012-2h13v15"/><path d="M6 22a2 2 0 010-4h13"/></svg><span data-i18n="library">Library</span></div>
+    <div class="nav-btn" data-nav="search" data-color="#f5b942" onclick="switchScreen('search')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span data-i18n="search">Search</span></div>
+  </div>
+
 
   <!-- ===================== NOW PLAYING SHEET ===================== -->
   <div id="npSheet">
@@ -686,51 +688,46 @@
       </div>
     </div>
     <div class="np-cover-wrap">
-  <div class="swiper np-swiper" id="npSwiper">
-    <div class="swiper-wrapper" id="npSwiperWrapper"></div>
-  </div>
-</div>
-<div class="np-swipe-hint" data-i18n="npSwipeHint">← بکش برای عوض‌کردن آهنگ →</div>
-    <div class="eq-visualizer" id="eqVisualizer"></div>
-    <div class="np-track-row">
-      <div><div class="np-track-name" id="npTitle">—</div><div class="np-artist"><span id="npArtistName">—</span> <span class="quality-pill" id="qualityPill" onclick="openQualitySheet()">HI-RES</span></div></div>
-      <svg class="np-kebab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" onclick="openActionSheet(currentTrack)"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>
-    </div>
-    <div class="eq-progress" id="waveProgress"></div>
-    <div class="np-times"><span id="npCur">1:34</span><span id="npTot">3:39</span></div>
-    <div class="np-transport">
-      <svg id="shuffleIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="toggleShuffle()"><path d="M4 4h4l9 16h3M4 20h4l3.5-6M17 4h3l-3 4M17 20l3-4"/></svg>
-      <svg viewBox="0 0 24 24" fill="#fff" stroke="none" onclick="prevTrack()"><path d="M19 20L9 12l10-8v16zM5 19V5" fill="#fff"/></svg>
-      <div class="np-play-big" onclick="togglePlay()"><svg id="npPlayIcon" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></div>
-      <svg viewBox="0 0 24 24" fill="#fff" stroke="none" onclick="nextTrack()"><path d="M5 4l10 8-10 8V4zM19 5v14" fill="#fff"/></svg>
-      <div style="position:relative;" onclick="cycleRepeat()">
-        <svg id="repeatIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/></svg>
-        <span id="repeatOneBadge" class="hidden" style="position:absolute;top:-6px;right:-7px;font-size:9px;font-weight:800;background:var(--a1);color:#fff;border-radius:50%;width:13px;height:13px;display:flex;align-items:center;justify-content:center;">1</span>
+      <div class="swiper np-swiper" id="npSwiper">
+        <div class="swiper-wrapper" id="npSwiperWrapper"></div>
       </div>
     </div>
-    <div class="np-scroll-area">
-    <div class="np-download-row">
-      <button class="dl-btn" onclick="downloadTrack(currentTrack,'128')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
-        دانلود ۱۲۸kbps
-      </button>
-      <button class="dl-btn hires" onclick="downloadTrack(currentTrack,'hires')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
-        دانلود Hi-Res
-      </button>
+    <div class="np-swipe-hint" data-i18n="npSwipeHint">← بکش برای عوض‌کردن آهنگ →</div>
+
+    <div class="np-deck">
+      <div class="eq-visualizer" id="eqVisualizer"></div>
+      <div class="np-track-row">
+        <div><div class="np-track-name" id="npTitle">—</div><div class="np-artist"><span id="npArtistName">—</span> <span class="quality-pill" id="qualityPill" onclick="openQualitySheet()">HI-RES</span></div></div>
+        <svg class="np-kebab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" onclick="openActionSheet(currentTrack)"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>
+      </div>
+      <div class="eq-progress" id="waveProgress">
+        <div class="eq-progress-fill" id="progressFill"></div>
+        <div class="eq-progress-thumb" id="progressThumb"></div>
+      </div>
+      <div class="np-times"><span id="npCur">1:34</span><span id="npTot">3:39</span></div>
+      <div class="np-transport">
+        <svg id="shuffleIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="toggleShuffle()"><path d="M4 4h4l9 16h3M4 20h4l3.5-6M17 4h3l-3 4M17 20l3-4"/></svg>
+        <svg viewBox="0 0 24 24" fill="#fff" stroke="none" onclick="prevTrack()"><path d="M19 20L9 12l10-8v16zM5 19V5" fill="#fff"/></svg>
+        <div class="np-play-big" onclick="togglePlay()"><svg id="npPlayIcon" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></div>
+        <svg viewBox="0 0 24 24" fill="#fff" stroke="none" onclick="nextTrack()"><path d="M5 4l10 8-10 8V4zM19 5v14" fill="#fff"/></svg>
+        <div style="position:relative;" onclick="cycleRepeat()">
+          <svg id="repeatIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/></svg>
+          <span id="repeatOneBadge" class="hidden" style="position:absolute;top:-6px;right:-7px;font-size:9px;font-weight:800;background:var(--a1);color:#fff;border-radius:50%;width:13px;height:13px;display:flex;align-items:center;justify-content:center;">1</span>
+        </div>
+      </div>
+      <div class="np-icons">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openEqSheet()"><path d="M4 21V14M4 10V3M12 21v-8M12 9V3M20 21v-5M20 12V3M1 14h6M9 9h6M17 12h6"/></svg>
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openSleepSheet()"><path d="M21 12.5A8.5 8.5 0 1111.5 3a7 7 0 009.5 9.5z"/></svg>
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openQualitySheet()"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openGroupSheet()"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <svg id="npHeart" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="toggleLike()"><path d="M12 21s-7-4.35-9.5-8.8C.5 8.4 2.6 5 6 5c2 0 3.3 1 4 2.2C10.7 6 12 5 14 5c3.4 0 5.5 3.4 3.5 7.2C19 16.65 12 21 12 21z"/></svg>
+      </div>
     </div>
-    <div class="np-icons">
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openEqSheet()"><path d="M4 21V14M4 10V3M12 21v-8M12 9V3M20 21v-5M20 12V3M1 14h6M9 9h6M17 12h6"/></svg>
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openSleepSheet()"><path d="M21 12.5A8.5 8.5 0 1111.5 3a7 7 0 009.5 9.5z"/></svg>
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openQualitySheet()"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openGroupSheet()"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      <svg id="npHeart" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="toggleLike()"><path d="M12 21s-7-4.35-9.5-8.8C.5 8.4 2.6 5 6 5c2 0 3.3 1 4 2.2C10.7 6 12 5 14 5c3.4 0 5.5 3.4 3.5 7.2C19 16.65 12 21 12 21z"/></svg>
-    </div>
+
     <div class="np-lyrics-bar" onclick="toggleLyrics()">
       <div class="np-lyrics-head"><span data-i18n="lyrics">Lyrics</span><span style="display:flex;gap:14px;align-items:center;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="event.stopPropagation();openKaraoke()" style="stroke:var(--a2);"><path d="M12 15a3 3 0 003-3V6a3 3 0 00-6 0v6a3 3 0 003 3z"/><path d="M19 11a7 7 0 01-14 0M12 18v3"/></svg><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></div>
       <div class="np-lyrics-preview" id="npLyricsPreview">—</div>
       <div class="np-lyrics-body" id="npLyricsBody"></div>
-    </div>
     </div>
   </div>
 
@@ -985,6 +982,7 @@
   <audio id="realAudioEl"></audio>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/config/supabase.js"></script>
 <script src="js/store/account.js"></script>
@@ -1002,8 +1000,8 @@
 <script src="js/components/cards.js"></script>
 <script src="js/components/sidebar.js"></script>
 <script src="js/components/topbar.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/components/player-bar.js"></script>
+<script src="js/components/meniscus-nav.js"></script>
 <script src="js/components/panels.js"></script>
 <script src="js/components/modals.js"></script>
 <script src="js/pages/home.js"></script>
@@ -1011,7 +1009,6 @@
 <script src="js/pages/library.js"></script>
 <script src="js/pages/hifi.js"></script>
 <script src="js/router.js"></script>
-<script src="js/components/meniscus-nav.js"></script>
 <script src="js/app.js"></script>
   <!-- ================= ACCOUNT AUTH ================= -->
 <div class="auth-backdrop" id="authBackdrop"><div class="auth-sheet" id="authSheet"><button class="auth-close" onclick="closeAuth()">×</button><div class="auth-logo">BX</div><h2 id="authTitle">Create your account</h2><p id="authSubtitle">Join BXMUSIC and keep your music with you.</p><button class="auth-google" type="button" onclick="handleGoogleLogin()">Continue with Google</button><form id="authForm" onsubmit="handleAuthSubmit(event)"><div class="auth-field" id="authNameField"><label for="authName">Name</label><input id="authName" type="text" autocomplete="name" placeholder="Your name"></div><div class="auth-field"><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div><div class="auth-field"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="••••••••" minlength="6" required></div><button class="auth-submit" id="authSubmit" type="submit">Create account</button></form><button class="auth-switch" id="authSwitch" type="button" onclick="toggleAuthMode()">Already have an account? Sign in</button><button class="auth-forgot" id="authForgot" type="button" onclick="handleForgotPassword()" style="display:none;">Forgot password?</button><div class="auth-message" id="authMessage"></div></div></div>
