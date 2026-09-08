@@ -338,6 +338,7 @@
   border:1px solid var(--glass-border);
   padding:14px 4px 8px;
 }
+
 .mn-glow{
   position:absolute;
   left:50%;
@@ -417,15 +418,6 @@
   transition:color .2s ease, transform .15s var(--ease);
   padding:4px 0;
 }
-   .nav-btn {
-  transition:opacity .3s ease;
-  opacity:.85;
-}
-.nav-btn svg {
-  opacity:0;
-  transform:translateY(2px);
-  transition:opacity .3s ease, transform .3s ease, color .35s ease;
-}
 
 .nav-btn:active {
   transform:scale(.92);
@@ -434,11 +426,16 @@
 .nav-btn svg {
   width:21px;
   height:21px;
+  transition:opacity .3s ease;
+  opacity:.85;
 }
 
 .nav-btn span {
   font-size:10.5px;
   font-weight:600;
+  opacity:0;
+  transform:translateY(2px);
+  transition:opacity .3s ease, transform .3s ease, color .35s ease;
 }
 
 .nav-btn.active svg {

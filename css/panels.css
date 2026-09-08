@@ -6,7 +6,7 @@
   inset:0;
   background:rgba(0,0,0,.55);
   backdrop-filter:blur(2px);
-  z-index:700;
+  z-index:120;
   display:none;
   opacity:0;
   transition:opacity .3s ease;
@@ -33,7 +33,7 @@
   border:1px solid var(--glass-border);
   border-bottom:none;
   border-radius:22px 22px 0 0;
-  z-index:710;
+  z-index:130;
   padding:10px 8px 24px;
   transition:transform .38s var(--ease);
 }
@@ -251,7 +251,7 @@
   font-weight:600;
   padding:10px 18px;
   border-radius:99px;
-  z-index:730;
+  z-index:200;
   opacity:0;
   pointer-events:none;
   transition:opacity .25s;
@@ -266,7 +266,7 @@
   position:absolute;
   inset:0;
   background:#08080c;
-  z-index:600;
+  z-index:105;
   transform:translateY(100%);
   visibility:hidden;
   pointer-events:none;
@@ -333,13 +333,15 @@
 }
 
 .np-cover-wrap {
-  flex-shrink:0;
+  flex:1;
   display:flex;
   align-items:center;
   justify-content:center;
+  min-height:0;
   overflow:visible;
   margin-bottom:0;
 }
+
 .np-swiper {
   width:100%;
   padding:10px 0 42px;
@@ -367,28 +369,12 @@
   flex-shrink:0;
 }
 
-.np-top,
-.np-track-row,
-.eq-progress,
-.np-times,
-.np-transport {
+.np-deck {
+  background: linear-gradient(180deg, rgba(139,92,246,.07), rgba(139,92,246,.02) 40%, transparent 100%);
+  border: 1px solid rgba(139,92,246,.08);
+  border-radius: 22px;
+  padding: 14px 14px 4px;
   flex-shrink:0;
-}
-
-.np-scroll-area {
-  flex:1;
-  min-height:0;
-  overflow-y:auto;
-}
-.np-cover {
-  width:min(100%, 320px, 36vh);
-  aspect-ratio:1;
-  border-radius:16px;
-  overflow:hidden;
-  position:relative;
-  flex-shrink:1;
-  box-shadow:0 35px 70px -20px rgba(139,92,246,.55), 0 10px 30px rgba(0,0,0,.4);
-  transition:box-shadow 1s ease;
 }
 
 .np-track-row {
@@ -418,43 +404,38 @@
 
 .eq-progress {
   width:100%;
-  height:40px;
-  display:flex;
-  align-items:flex-end;
-  gap:3px;
-  margin-bottom:4px;
+  height:6px;
+  border-radius:99px;
+  background:rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.4);
+  margin-bottom:10px;
   cursor:pointer;
+  position:relative;
   touch-action:none;
 }
 
-.eq-bar {
-  flex:1;
-  min-width:2.5px;
-  height:36px;
-  border-radius:4px;
-  background:var(--surface-3);
-  transform-origin:bottom;
-  transform:scaleY(var(--h, .3));
-  position:relative;
-  overflow:hidden;
-  will-change:transform;
-}
-
-.eq-bar::after {
-  content:'';
+.eq-progress-fill {
   position:absolute;
-  inset:0;
+  inset-inline-start:0;
+  top:0;
+  height:100%;
+  width:0%;
+  border-radius:99px;
   background:var(--grad);
-  transform:scaleX(var(--fill, 0));
-  transform-origin:left;
-  transition:transform .25s linear;
-}
-.eq-bar.head {
-  box-shadow:0 0 12px 2px rgba(236,72,153,.6), 0 0 22px 5px rgba(139,92,246,.3);
+  box-shadow:0 0 10px 1px rgba(139,92,246,.45);
+  transition:width .15s linear;
 }
 
-.eq-progress:active .eq-bar {
-  filter:brightness(1.1);
+.eq-progress-thumb {
+  position:absolute;
+  top:50%;
+  inset-inline-start:0%;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#fff;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 0 4px rgba(139,92,246,.25), 0 2px 6px rgba(0,0,0,.4);
 }
 .np-times {
   display:flex;
@@ -504,42 +485,6 @@
   height:19px;
   fill:#fff;
   stroke:none;
-}
-.np-download-row {
-  display:flex;
-  gap:10px;
-  margin:4px 0 18px;
-}
-
-.dl-btn {
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  padding:11px 10px;
-  border-radius:12px;
-  background:var(--surface-2);
-  border:1px solid var(--line);
-  color:var(--text);
-  font-size:12.5px;
-  font-weight:600;
-}
-
-.dl-btn svg {
-  width:16px;
-  height:16px;
-  stroke:var(--dim);
-}
-
-.dl-btn.hires {
-  background:linear-gradient(135deg, rgba(139,92,246,.18), rgba(236,72,153,.14));
-  border-color:rgba(139,92,246,.35);
-  color:var(--hires);
-}
-
-.dl-btn.hires svg {
-  stroke:var(--hires);
 }
 
 .np-icons {
@@ -757,7 +702,7 @@
   position:absolute;
   inset:0;
   background:radial-gradient(circle at 50% 20%, #2a1a4a, #08080c 70%);
-  z-index:720;
+  z-index:110;
   display:flex;
   flex-direction:column;
   align-items:center;
