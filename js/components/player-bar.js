@@ -100,7 +100,7 @@ function updateMini(){
 }
 function updateSheet(){
   const tr = tracks[currentTrack];
-  document.getElementById('npCover').innerHTML = coverEl(currentTrack);
+  syncNpSwiper();
   document.getElementById('npTitle').textContent = tr.title;
   document.getElementById('npArtistName').textContent = tr.artist;
   document.getElementById('npQueueLabel').textContent = queueLabel;
@@ -420,3 +420,34 @@ setInterval(() => {
   }
   if(isOpen) renderWaveProgress();
 }, 300);
+/* ================= NOW PLAYING COVERFLOW ================= */
+let npSwiper = null;
+
+function buildNpSwiperSlides(){
+  const wrapper = document.getElementById('npSwiperWrapper');
+  if(!wrapper || wrapper.children.length === tracks.length) return;
+  wrapper.innerHTML = tracks.map((tr,i) => `<div class="swiper-slide"><div class="np-slide-cover">${coverEl(i)}</div></div>`).join('');
+}
+
+function initNpSwiper(){
+  if(npSwiper || typeof Swiper === 'undefined') return;
+  buildNpSwiperSlides();
+  npSwiper = new Swiper('#npSwiper', {
+    effect: 'coverflow',
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    grabCursor: true,
+    spaceBetween: 30,
+    initialSlide: currentTrack,
+    coverflowEffect: { rotate: 25, stretch: 0, depth: 90, modifier: 1, slideShadows: false },
+  });
+  npSwiper.on('slideChange', function(){
+    const i = npSwiper.activeIndex;
+    if(i !== currentTrack) playTrack(i, tracks[i].album, false);
+  });
+}
+
+function syncNpSwiper(){
+  if(!npSwiper){ initNpSwiper(); return; }
+  if(npSwiper.activeIndex !== currentTrack) npSwiper.slideTo(currentTrack);
+}
