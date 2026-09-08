@@ -5,6 +5,7 @@ function switchScreen(name){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav===name));
+  if(typeof updateMeniscusNav === 'function') updateMeniscusNav(true);
   if(name==='library') renderLibBody(document.querySelector('#libChips .chip.active')?.dataset.chip || 'Playlists');
   if(name==='profile') renderProfile();
   if(name==='friends') renderFriendsList();
