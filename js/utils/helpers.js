@@ -58,6 +58,6 @@ const i18n = {
     playHistory:"تاریخچه پخش",notifications:"اعلان‌ها",drivingMode:"حالت رانندگی",
     yourListeningStats:"آمار شنیدن شما",nothingPlayedYet:"چیزی تو این نشست پخش نشده",
     noSongsYet:"هنوز آهنگی نیست",offlineMode:"حالت آفلاین",yourLibraryTitle:"کتابخانه شما",
-npSwipeHint:"← بکش برای عوض‌کردن آهنگ →"}
+    npSwipeHint:"← بکش برای عوض‌کردن آهنگ →"}
 };
 function t(key){ return i18n[lang][key] || key; }
