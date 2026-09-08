@@ -112,6 +112,38 @@ function updateSheet(){
   updatePlayIcons();
   applyDynamicTheme(currentTrack);
 }
+/* ================= NOW PLAYING COVERFLOW ================= */
+let npSwiper = null;
+
+function buildNpSwiperSlides(){
+  const wrapper = document.getElementById('npSwiperWrapper');
+  if(!wrapper || wrapper.children.length === tracks.length) return;
+  wrapper.innerHTML = tracks.map((tr,i) => `<div class="swiper-slide"><div class="np-slide-cover">${coverEl(i)}</div></div>`).join('');
+}
+
+function initNpSwiper(){
+  if(npSwiper || typeof Swiper === 'undefined') return;
+  buildNpSwiperSlides();
+  npSwiper = new Swiper('#npSwiper', {
+    effect: 'coverflow',
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    grabCursor: true,
+    spaceBetween: 30,
+    initialSlide: currentTrack,
+    coverflowEffect: { rotate: 25, stretch: 0, depth: 90, modifier: 1, slideShadows: false },
+  });
+  npSwiper.on('slideChange', function(){
+    const i = npSwiper.activeIndex;
+    if(i !== currentTrack) playTrack(i, tracks[i].album, false);
+  });
+}
+
+function syncNpSwiper(){
+  if(!npSwiper){ initNpSwiper(); return; }
+  if(npSwiper.activeIndex !== currentTrack) npSwiper.slideTo(currentTrack);
+}
+
 function applyDynamicTheme(i){
   const g = grads[i % grads.length];
   document.getElementById('npBgBlur').style.background = `radial-gradient(circle at 30% 15%, ${g[0]}, ${g[1]} 70%)`;
@@ -324,62 +356,31 @@ function formatTime(sec){
   const m = Math.floor(sec/60), s = Math.floor(sec%60);
   return m+':'+String(s).padStart(2,'0');
 }
-const EQ_BARS = 80;
-let eqBarsBuilt = false;
-let eqBaseH = [];
 let eqDragging = false;
+let progressBarBound = false;
 
-function buildEqBars(){
+function bindProgressBar(){
   const track = document.getElementById('waveProgress');
-  if(!track || eqBarsBuilt) return;
-  track.innerHTML = '';
-  eqBaseH = [];
-  const raw = [];
-  for(let i=0;i<EQ_BARS;i++) raw.push(0.16 + Math.random()*0.62);
-  for(let i=0;i<EQ_BARS;i++){
-    const prev = raw[i-1] ?? raw[i];
-    const next = raw[i+1] ?? raw[i];
-    const h = (prev + raw[i] + next) / 3;
-    eqBaseH.push(h);
-    const bar = document.createElement('div');
-    bar.className = 'eq-bar';
-    bar.style.setProperty('--h', h.toFixed(2));
-    track.appendChild(bar);
-  }
-  eqBarsBuilt = true;
-  const endDrag = () => { eqDragging = false; };
+  if(!track || progressBarBound) return;
+  progressBarBound = true;
   track.addEventListener('mousedown', e => { eqDragging = true; seekFromWave(e); });
   window.addEventListener('mousemove', e => { if(eqDragging) seekFromWave(e); });
-  window.addEventListener('mouseup', endDrag);
+  window.addEventListener('mouseup', () => eqDragging = false);
   track.addEventListener('touchstart', e => { eqDragging = true; seekFromWave(e.touches[0]); }, {passive:true});
-  window.addEventListener('touchmove', e => { if(eqDragging) seekFromWave(e.touches[0]); }, {passive:true});
-  window.addEventListener('touchend', endDrag);
-  window.addEventListener('touchcancel', endDrag);
-  document.addEventListener('visibilitychange', endDrag);
+  track.addEventListener('touchmove', e => { if(eqDragging) seekFromWave(e.touches[0]); }, {passive:true});
+  window.addEventListener('touchend', () => eqDragging = false);
 }
 
 function renderWaveProgress(){
-  buildEqBars();
-  const bars = document.querySelectorAll('#waveProgress .eq-bar');
-  const pctExact = (progress / 100) * bars.length;
-  let freqData = null;
-  if(analyser && playing){
-    freqData = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(freqData);
-  }
-  bars.forEach((b,i) => {
-    const fill = Math.max(0, Math.min(1, pctExact - i));
-    b.style.setProperty('--fill', fill.toFixed(3));
-    b.classList.toggle('head', fill > 0 && fill < 1);
-    if(freqData){
-      const v = freqData[i % freqData.length] || 0;
-      const h = Math.min(1, eqBaseH[i] + (v/255) * 0.5);
-      b.style.setProperty('--h', h.toFixed(2));
-    } else {
-      b.style.setProperty('--h', eqBaseH[i].toFixed(2));
-    }
-  });
+  bindProgressBar();
+  const fill = document.getElementById('progressFill');
+  const thumb = document.getElementById('progressThumb');
+  if(!fill || !thumb) return;
+  const pct = Math.max(0, Math.min(100, progress));
+  fill.style.width = pct + '%';
+  thumb.style.insetInlineStart = pct + '%';
 }
+
 function seekFromWave(evt){
   const track = document.getElementById('waveProgress');
   const rect = track.getBoundingClientRect();
@@ -420,34 +421,3 @@ setInterval(() => {
   }
   if(isOpen) renderWaveProgress();
 }, 300);
-/* ================= NOW PLAYING COVERFLOW ================= */
-let npSwiper = null;
-
-function buildNpSwiperSlides(){
-  const wrapper = document.getElementById('npSwiperWrapper');
-  if(!wrapper || wrapper.children.length === tracks.length) return;
-  wrapper.innerHTML = tracks.map((tr,i) => `<div class="swiper-slide"><div class="np-slide-cover">${coverEl(i)}</div></div>`).join('');
-}
-
-function initNpSwiper(){
-  if(npSwiper || typeof Swiper === 'undefined') return;
-  buildNpSwiperSlides();
-  npSwiper = new Swiper('#npSwiper', {
-    effect: 'coverflow',
-    centeredSlides: true,
-    slidesPerView: 'auto',
-    grabCursor: true,
-    spaceBetween: 30,
-    initialSlide: currentTrack,
-    coverflowEffect: { rotate: 25, stretch: 0, depth: 90, modifier: 1, slideShadows: false },
-  });
-  npSwiper.on('slideChange', function(){
-    const i = npSwiper.activeIndex;
-    if(i !== currentTrack) playTrack(i, tracks[i].album, false);
-  });
-}
-
-function syncNpSwiper(){
-  if(!npSwiper){ initNpSwiper(); return; }
-  if(npSwiper.activeIndex !== currentTrack) npSwiper.slideTo(currentTrack);
-}
