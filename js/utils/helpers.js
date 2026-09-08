@@ -38,7 +38,8 @@ const i18n = {
     editProfile:"Edit profile",followers:"Followers",yourPlaylists:"Your playlists",premium:"Premium",
     playHistory:"Play history",notifications:"Notifications",drivingMode:"Driving mode",
     yourListeningStats:"Your listening stats",nothingPlayedYet:"Nothing played yet this session",
-    noSongsYet:"No songs yet",offlineMode:"Offline mode",yourLibraryTitle:"Your Library"},
+    noSongsYet:"No songs yet",offlineMode:"Offline mode",yourLibraryTitle:"Your Library",
+    npSwipeHint:"← swipe to change song →"},
   fa:{home:"خانه",explore:"اکسپلور",library:"کتابخانه",search:"جستجو",yourLibrary:"کتابخانه شما",
     madeForYou:"ساخته‌شده برای شما",recentlyPlayed:"اخیراً پخش‌شده",everythingOnePlayer:"همه‌چیز، یک پلیر",
     seeAll:"مشاهده همه",playNow:"پخش",popular:"محبوب‌ترین‌ها",follow:"دنبال کردن",following:"دنبال می‌کنید",
@@ -56,7 +57,7 @@ const i18n = {
     editProfile:"ویرایش پروفایل",followers:"دنبال‌کننده",yourPlaylists:"پلی‌لیست‌های شما",premium:"پرمیوم",
     playHistory:"تاریخچه پخش",notifications:"اعلان‌ها",drivingMode:"حالت رانندگی",
     yourListeningStats:"آمار شنیدن شما",nothingPlayedYet:"چیزی تو این نشست پخش نشده",
-    noSongsYet:"No songs yet",offlineMode:"Offline mode",yourLibraryTitle:"Your Library",
-npSwipeHint:"← swipe to change song →"},
+    noSongsYet:"هنوز آهنگی نیست",offlineMode:"حالت آفلاین",yourLibraryTitle:"کتابخانه شما",
+npSwipeHint:"← بکش برای عوض‌کردن آهنگ →"}
 };
 function t(key){ return i18n[lang][key] || key; }
