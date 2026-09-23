@@ -1,4 +1,4 @@
 window.BXMUSIC_SUPABASE = {
-  url: "اینجا Project URL",
-  key: "اینجا Publishable Key"
+  url: "https://xjmjgmhkqiwbmaujkubs.supabase.co",
+  key: "کلید Publishable خودت"
 };
