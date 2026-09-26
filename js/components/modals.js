@@ -132,7 +132,6 @@ async function saveProfile(){
 
     if (typeof loadAccountData === 'function') {
       await loadAccountData();
-    }
   }
 
   showToast('پروفایل ذخیره شد');
