@@ -101,15 +101,42 @@ function renderAvatarPickers(){
   document.getElementById('avatarColorRow').innerHTML = avatarColors.map(c => `<div class="color-swatch ${profile.color===c?'selected':''}" style="background:${c}" onclick="pickAvatarColor('${c}')"></div>`).join('');
   document.getElementById('avatarEmojiRow').innerHTML = `<div class="emoji-swatch ${!profile.emoji?'selected':''}" onclick="pickAvatarEmoji('')">Aa</div>` +
     avatarEmojis.map(e => `<div class="emoji-swatch ${profile.emoji===e?'selected':''}" onclick="pickAvatarEmoji('${e}')">${e}</div>`).join('');
-}
-function pickAvatarColor(c){ profile.color = c; renderAvatarPickers(); }
-function pickAvatarEmoji(e){ profile.emoji = e; renderAvatarPickers(); }
-function saveProfile(){
+async function saveProfile(){
+  
   const name = document.getElementById('editNameInput').value.trim();
+  const bio = document.getElementById('editBioInput').value.trim();
+
   profile.name = name || profile.name;
-  profile.bio = document.getElementById('editBioInput').value.trim();
+  profile.bio = bio;
+
   renderProfileHeader();
   closeEditProfile();
+
+  if (window.bxSupabase && window.BXMUSIC_ACCOUNT?.user) {
+
+    const userId = window.BXMUSIC_ACCOUNT.user.id;
+
+    const { error } = await window.bxSupabase
+      .from('profiles')
+      .upsert({
+        id: userId,
+        full_name: profile.name,
+        bio: profile.bio
+      });
+
+    if (error) {
+      console.error('BXMUSIC: Could not save profile.', error);
+      showToast('خطا در ذخیره پروفایل');
+      return;
+    }
+
+    await loadAccountData();
+
+    if (typeof updateAccountUI === 'function') {
+      updateAccountUI();
+    }
+  }
+
   showToast('Profile updated');
 }
 function friendAvatarHTML(f, idx){
