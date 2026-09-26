@@ -103,43 +103,72 @@ function renderAvatarPickers(){
  
     avatarEmojis.map(e => `<div class="emoji-swatch ${profile.emoji===e?'selected':''}" onclick="pickAvatarEmoji('${e}')">${e}</div>`).join('');
 }
-async function saveProfile(){
+async function saveProfile() {
+  const nameInput = document.getElementById('editNameInput');
+  const bioInput = document.getElementById('editBioInput');
 
-  const name = document.getElementById('editNameInput').value.trim();
-  const bio = document.getElementById('editBioInput').value.trim();
+  const name = nameInput ? nameInput.value.trim() : '';
+  const bio = bioInput ? bioInput.value.trim() : '';
 
+  // حفظ اطلاعات قبلی در صورت خالی بودن نام
   profile.name = name || profile.name;
   profile.bio = bio;
 
+  // اول رابط کاربری را آپدیت کن
   renderProfileHeader();
   closeEditProfile();
 
-  if (window.bxSupabase && window.BXMUSIC_ACCOUNT) {
+  // ذخیره در Supabase
+  if (!window.bxSupabase || !window.BXMUSIC_ACCOUNT) {
+    console.warn('BXMUSIC: Supabase is not available.');
+    showToast('پروفایل روی دستگاه تغییر کرد');
+    return;
+  }
 
-    const userId = window.BXMUSIC_ACCOUNT.user.id;
+  const user = window.BXMUSIC_ACCOUNT.user;
 
-    const { error } = await window.bxSupabase
+  if (!user) {
+    showToast('لطفاً ابتدا وارد حساب شوید');
+    return;
+  }
+
+  try {
+    const { data, error } = await window.bxSupabase
       .from('profiles')
-      .upsert({
-        id: userId,
-        full_name: profile.name,
-        bio: profile.bio
-      });
+      .upsert(
+        {
+          id: user.id,
+          full_name: profile.name,
+          bio: profile.bio
+        },
+        {
+          onConflict: 'id'
+        }
+      )
+      .select()
+      .single();
 
     if (error) {
-      console.error('BXMUSIC: Could not save profile', error);
+      console.error('BXMUSIC: Could not save profile:', error);
       showToast('خطا در ذخیره پروفایل');
       return;
     }
 
-    if (typeof loadAccountData === 'function') {
-      await loadAccountData();
+    // اطلاعات ذخیره‌شده را داخل state برنامه هم قرار بده
+    if (window.BXMUSIC_ACCOUNT) {
+      window.BXMUSIC_ACCOUNT.profile = data || {
+        id: user.id,
+        full_name: profile.name,
+        bio: profile.bio
+      };
+    }
+
+    showToast('پروفایل با موفقیت ذخیره شد');
+
+  } catch (error) {
+    console.error('BXMUSIC: Profile save exception:', error);
+    showToast('خطا در ذخیره پروفایل');
   }
-
-  showToast('پروفایل ذخیره شد');
-}
-
-  showToast('Profile updated');
 }
 function friendAvatarHTML(f, idx){
   const online = f.status==='Online' || f.status.startsWith('Listening');
