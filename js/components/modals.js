@@ -100,7 +100,9 @@ function renderAvatarPickers(){
   document.getElementById('editAvatarPreview').textContent = previewLabel;
   document.getElementById('avatarColorRow').innerHTML = avatarColors.map(c => `<div class="color-swatch ${profile.color===c?'selected':''}" style="background:${c}" onclick="pickAvatarColor('${c}')"></div>`).join('');
   document.getElementById('avatarEmojiRow').innerHTML = `<div class="emoji-swatch ${!profile.emoji?'selected':''}" onclick="pickAvatarEmoji('')">Aa</div>` +
+ 
     avatarEmojis.map(e => `<div class="emoji-swatch ${profile.emoji===e?'selected':''}" onclick="pickAvatarEmoji('${e}')">${e}</div>`).join('');
+}
 async function saveProfile(){
 
   const name = document.getElementById('editNameInput').value.trim();
