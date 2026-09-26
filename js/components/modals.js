@@ -102,7 +102,7 @@ function renderAvatarPickers(){
   document.getElementById('avatarEmojiRow').innerHTML = `<div class="emoji-swatch ${!profile.emoji?'selected':''}" onclick="pickAvatarEmoji('')">Aa</div>` +
     avatarEmojis.map(e => `<div class="emoji-swatch ${profile.emoji===e?'selected':''}" onclick="pickAvatarEmoji('${e}')">${e}</div>`).join('');
 async function saveProfile(){
-  
+
   const name = document.getElementById('editNameInput').value.trim();
   const bio = document.getElementById('editBioInput').value.trim();
 
@@ -112,7 +112,7 @@ async function saveProfile(){
   renderProfileHeader();
   closeEditProfile();
 
-  if (window.bxSupabase && window.BXMUSIC_ACCOUNT?.user) {
+  if (window.bxSupabase && window.BXMUSIC_ACCOUNT) {
 
     const userId = window.BXMUSIC_ACCOUNT.user.id;
 
@@ -125,17 +125,18 @@ async function saveProfile(){
       });
 
     if (error) {
-      console.error('BXMUSIC: Could not save profile.', error);
+      console.error('BXMUSIC: Could not save profile', error);
       showToast('خطا در ذخیره پروفایل');
       return;
     }
 
-    await loadAccountData();
-
-    if (typeof updateAccountUI === 'function') {
-      updateAccountUI();
+    if (typeof loadAccountData === 'function') {
+      await loadAccountData();
     }
   }
+
+  showToast('پروفایل ذخیره شد');
+}
 
   showToast('Profile updated');
 }
