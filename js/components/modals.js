@@ -160,44 +160,6 @@ async function saveProfile() {
   }
 }
 
-  try {
-    const { data, error } = await window.bxSupabase
-      .from('profiles')
-      .upsert(
-        {
-          id: user.id,
-          full_name: profile.name,
-          bio: profile.bio
-        },
-        {
-          onConflict: 'id'
-        }
-      )
-      .select()
-      .single();
-
-    if (error) {
-      console.error('BXMUSIC: Could not save profile:', error);
-      showToast('خطا در ذخیره پروفایل');
-      return;
-    }
-
-    // اطلاعات ذخیره‌شده را داخل state برنامه هم قرار بده
-    if (window.BXMUSIC_ACCOUNT) {
-      window.BXMUSIC_ACCOUNT.profile = data || {
-        id: user.id,
-        full_name: profile.name,
-        bio: profile.bio
-      };
-    }
-
-    showToast('پروفایل با موفقیت ذخیره شد');
-
-  } catch (error) {
-    console.error('BXMUSIC: Profile save exception:', error);
-    showToast('خطا در ذخیره پروفایل');
-  }
-}
 function friendAvatarHTML(f, idx){
   const online = f.status==='Online' || f.status.startsWith('Listening');
   return `<div class="friend-item">
