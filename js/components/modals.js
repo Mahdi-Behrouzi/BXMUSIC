@@ -102,6 +102,26 @@ function renderAvatarPickers(){
   document.getElementById('avatarEmojiRow').innerHTML = `<div class="emoji-swatch ${!profile.emoji?'selected':''}" onclick="pickAvatarEmoji('')">Aa</div>` +
  
     avatarEmojis.map(e => `<div class="emoji-swatch ${profile.emoji===e?'selected':''}" onclick="pickAvatarEmoji('${e}')">${e}</div>`).join('');
+function pickAvatarColor(color) {
+  profile.color = color;
+
+  const preview = document.getElementById('editAvatarPreview');
+  if (preview) {
+    preview.style.background = color;
+  }
+
+  renderAvatarPickers();
+}
+
+function pickAvatarEmoji(emoji) {
+  profile.emoji = emoji;
+
+  const preview = document.getElementById('editAvatarPreview');
+  if (preview) {
+    preview.textContent = emoji;
+  }
+
+  renderAvatarPickers();
 }
 async function saveProfile() {
   const nameInput = document.getElementById('editNameInput');
@@ -110,12 +130,19 @@ async function saveProfile() {
   const name = nameInput ? nameInput.value.trim() : '';
   const bio = bioInput ? bioInput.value.trim() : '';
 
+  // اطلاعات جدید پروفایل
   profile.name = name || profile.name;
   profile.bio = bio;
 
+  // رنگ و استیکر انتخاب‌شده
+  const color = profile.color || null;
+  const emoji = profile.emoji || null;
+
+  // اول ظاهر پروفایل را آپدیت کن
   renderProfileHeader();
   closeEditProfile();
 
+  // بررسی اتصال Supabase
   if (!window.bxSupabase || !window.BXMUSIC_ACCOUNT) {
     console.warn('BXMUSIC: Supabase is not available.');
     showToast('پروفایل روی دستگاه تغییر کرد');
@@ -130,15 +157,19 @@ async function saveProfile() {
   }
 
   try {
-    const { error } = await window.bxSupabase
+    const { data, error } = await window.bxSupabase
       .from('profiles')
       .upsert({
         id: user.id,
         full_name: profile.name,
-        bio: profile.bio
+        bio: profile.bio,
+        color: color,
+        emoji: emoji
       }, {
         onConflict: 'id'
-      });
+      })
+      .select()
+      .single();
 
     if (error) {
       console.error('BXMUSIC: Could not save profile:', error);
@@ -146,10 +177,13 @@ async function saveProfile() {
       return;
     }
 
-    window.BXMUSIC_ACCOUNT.profile = {
+    // اطلاعات ذخیره‌شده را داخل برنامه هم نگه دار
+    window.BXMUSIC_ACCOUNT.profile = data || {
       id: user.id,
       full_name: profile.name,
-      bio: profile.bio
+      bio: profile.bio,
+      color: color,
+      emoji: emoji
     };
 
     showToast('پروفایل با موفقیت ذخیره شد');
