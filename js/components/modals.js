@@ -110,15 +110,12 @@ async function saveProfile() {
   const name = nameInput ? nameInput.value.trim() : '';
   const bio = bioInput ? bioInput.value.trim() : '';
 
-  // حفظ اطلاعات قبلی در صورت خالی بودن نام
   profile.name = name || profile.name;
   profile.bio = bio;
 
-  // اول رابط کاربری را آپدیت کن
   renderProfileHeader();
   closeEditProfile();
 
-  // ذخیره در Supabase
   if (!window.bxSupabase || !window.BXMUSIC_ACCOUNT) {
     console.warn('BXMUSIC: Supabase is not available.');
     showToast('پروفایل روی دستگاه تغییر کرد');
@@ -131,6 +128,37 @@ async function saveProfile() {
     showToast('لطفاً ابتدا وارد حساب شوید');
     return;
   }
+
+  try {
+    const { error } = await window.bxSupabase
+      .from('profiles')
+      .upsert({
+        id: user.id,
+        full_name: profile.name,
+        bio: profile.bio
+      }, {
+        onConflict: 'id'
+      });
+
+    if (error) {
+      console.error('BXMUSIC: Could not save profile:', error);
+      showToast('خطا در ذخیره پروفایل');
+      return;
+    }
+
+    window.BXMUSIC_ACCOUNT.profile = {
+      id: user.id,
+      full_name: profile.name,
+      bio: profile.bio
+    };
+
+    showToast('پروفایل با موفقیت ذخیره شد');
+
+  } catch (error) {
+    console.error('BXMUSIC: Profile save exception:', error);
+    showToast('خطا در ذخیره پروفایل');
+  }
+}
 
   try {
     const { data, error } = await window.bxSupabase
